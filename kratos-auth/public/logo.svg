@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Logo">
+  <rect width="160" height="160" rx="24" fill="#111827"/>
+  <circle cx="80" cy="80" r="46" fill="#ffffff" opacity="0.1"/>
+  <path d="M80 44c19.9 0 36 16.1 36 36s-16.1 36-36 36-36-16.1-36-36 16.1-36 36-36Z" fill="#ffffff" opacity="0.12"/>
+  <text x="80" y="92" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="32" font-weight="700" text-anchor="middle" fill="#ffffff">
+    Ory
+  </text>
+</svg>
