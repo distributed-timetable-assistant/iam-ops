@@ -6,7 +6,6 @@ import { getLogoutFlow, getServerSession } from "@ory/nextjs/app"
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import OryLogo from "./logo.svg"
 
 export const metadata: Metadata = {
     title: "Ory Next.js App router Example",
@@ -24,7 +23,7 @@ export default async function RootLayout() {
         <SessionProvider session={session}>
             <div className="flex items-center justify-center min-h-screen bg-gray-50">
                 <div className="flex flex-col items-center gap-4">
-                    <Image src={OryLogo as string} alt="Ory Logo" width={160} />
+                    <Image src="/logo.svg" alt="Ory Logo" width={160} height={160} priority />
                     <h1 className="font-bold text-xl">Ory Next.js App Router Example</h1>
                     {!session && (
                         <div className="flex items-center gap-2 bg-white rounded-sm border flex-col w-60 p-3">
