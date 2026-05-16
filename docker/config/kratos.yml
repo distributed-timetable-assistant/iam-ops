@@ -17,8 +17,11 @@ serve:
         - PUT
         - PATCH
         - DELETE
+      allowed_headers:
+        - Content-type
+        - Authorization
   admin:
-    base_url: http://kratos:4434/
+    base_url: http://127.0.0.1:4434/
 
 selfservice:
   default_browser_return_url: http://127.0.0.1:3000/
@@ -61,7 +64,7 @@ selfservice:
       ui_url: http://127.0.0.1:3000/verification
       use: code
       after:
-        default_browser_return_url: http://127.0.0.1:3000/welcome
+        default_browser_return_url: http://127.0.0.1:3000/
 
     logout:
       after:

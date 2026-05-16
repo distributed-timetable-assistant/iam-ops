@@ -2,16 +2,18 @@ version: '3.7'
 services:
   kratos-migrate:
     image: oryd/kratos:v26.2.0
+    user: "${UID:-1000}:${GID:-1000}"
     environment:
       - DSN=sqlite:///var/lib/sqlite/users.db?_fk=true&_journal=WAL&mode=rwc
     volumes:
       - type: bind
         source: ..
         target: /var/lib/sqlite
+        read_only: false
       - type: bind
-        source: ./contrib/quickstart/kratos/email-password
+        source: ./config
         target: /etc/config/kratos
-    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes up
     restart: on-failure
     networks:
       - intranet
@@ -30,17 +32,18 @@ services:
     depends_on:
       - kratos-migrate
     image: oryd/kratos:v26.2.0
+    user: "${UID:-1000}:${GID:-1000}"
     ports:
       - '4433:4433' # public
       - '4434:4434' # admin
     restart: unless-stopped
     environment:
-      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&_journal=WAL
+      - DSN=sqlite:///var/lib/sqlite/users.db?_fk=true&_journal=WAL
       - LOG_LEVEL=trace
     command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
     volumes:
-      - type: volume
-        source: kratos-sqlite
+      - type: bind
+        source: ..
         target: /var/lib/sqlite
         read_only: false
       - type: bind
@@ -57,5 +60,4 @@ services:
       - intranet
 networks:
   intranet:
-volumes:
-  kratos-sqlite:
+volumes: {}
