@@ -18,11 +18,7 @@ export default function RootLayout({
             <body
                 className={`${inter.className} min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased`}
             >
-                <Suspense>
-                    <main className="min-h-screen flex items-center justify-center p-4 pb-8">
-                        <div className="w-full">{children}</div>
-                    </main>
-                </Suspense>
+                <Suspense>{children}</Suspense>
             </body>
         </html>
     )

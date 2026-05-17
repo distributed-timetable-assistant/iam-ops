@@ -29,19 +29,19 @@ export default async function RootLayout() {
                         <div className="flex items-center gap-2 bg-white rounded-sm border flex-col w-60 p-3">
                             <Link
                                 className="underline block w-full"
-                                href="/registration"
+                                href="/auth/registration"
                             >
                                 Registration
                             </Link>
-                            <Link className="underline block w-full" href="/login">
+                            <Link className="underline block w-full" href="/auth/login">
                                 Login
                             </Link>
-                            <Link className="underline block w-full" href="/recovery">
+                            <Link className="underline block w-full" href="/auth/recovery">
                                 Account Recovery
                             </Link>
                             <Link
                                 className="underline block w-full"
-                                href="/verification"
+                                href="/auth/verification"
                             >
                                 Account Verification
                             </Link>
@@ -52,7 +52,7 @@ export default async function RootLayout() {
                             <h2 className="w-full">
                                 Hi, {traits.email ?? traits.username ?? traits.phone}!
                             </h2>
-                            <Link className="underline block w-full" href="/settings">
+                            <Link className="underline block w-full" href="/auth/settings">
                                 Settings
                             </Link>
                             <LogoutLink />
