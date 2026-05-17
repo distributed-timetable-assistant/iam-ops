@@ -21,7 +21,7 @@ export default async function RootLayout() {
 
     return (
         <SessionProvider session={session}>
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <div className="flex items-center justify-center min-h-screen bg-gray-50 text-gray-900">
                 <div className="flex flex-col items-center gap-4">
                     <Image src="/logo.svg" alt="Ory Logo" width={160} height={160} priority />
                     <h1 className="font-bold text-xl">Ory Next.js App Router Example</h1>
@@ -29,19 +29,19 @@ export default async function RootLayout() {
                         <div className="flex items-center gap-2 bg-white rounded-sm border flex-col w-60 p-3">
                             <Link
                                 className="underline block w-full"
-                                href="/auth/registration"
+                                href="/registration"
                             >
                                 Registration
                             </Link>
-                            <Link className="underline block w-full" href="/auth/login">
+                            <Link className="underline block w-full" href="/login">
                                 Login
                             </Link>
-                            <Link className="underline block w-full" href="/auth/recovery">
+                            <Link className="underline block w-full" href="/recovery">
                                 Account Recovery
                             </Link>
                             <Link
                                 className="underline block w-full"
-                                href="/auth/verification"
+                                href="/verification"
                             >
                                 Account Verification
                             </Link>
