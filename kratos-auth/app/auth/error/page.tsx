@@ -1,7 +1,7 @@
 // Copyright © 2024 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
-import { Error as ErrorComponent } from "@ory/elements-react/theme"
+import { Error as ErrorComponent, type OryError } from "@ory/elements-react/theme"
 import { getServerSession, OryPageParams } from "@ory/nextjs/app"
 import { headers } from "next/headers"
 
@@ -34,12 +34,20 @@ async function getRequestOrigin(): Promise<string> {
     return host ? `${proto}://${host}` : "http://localhost:3000"
 }
 
-async function getSelfServiceError(searchParams: OryPageParams["searchParams"]) {
+async function getSelfServiceError(
+    searchParams: OryPageParams["searchParams"],
+): Promise<OryError> {
     const resolvedSearchParams = await searchParams
     const id = getFirstQueryParam(resolvedSearchParams, "id")
 
     if (!id) {
-        return null
+        return {
+            error: {
+                code: 400,
+                status: "Bad Request",
+                message: "Missing error id.",
+            },
+        } as OryError
     }
 
     const origin = await getRequestOrigin()
@@ -57,26 +65,28 @@ async function getSelfServiceError(searchParams: OryPageParams["searchParams"]) 
         const text = await res.text().catch(() => "")
         return {
             error: {
+                code: res.status,
+                status: res.statusText || "Error",
                 id,
                 message: text || `Failed to load error (HTTP ${res.status})`,
             },
-        }
+        } as OryError
     }
 
     const data = await res.json().catch(() => null)
-    return coerceOryDates(data)
+    return coerceOryDates(data) as OryError
 }
 
-function coerceOryDates(value: unknown): unknown {
+function coerceOryDates<T>(value: T): T {
     if (!value) return value
 
     if (Array.isArray(value)) {
-        return value.map(coerceOryDates)
+        return value.map(coerceOryDates) as unknown as T
     }
 
     if (typeof value !== "object") return value
 
-    const input = value as Record<string, unknown>
+    const input = value as unknown as Record<string, unknown>
     const output: Record<string, unknown> = {}
 
     for (const [key, raw] of Object.entries(input)) {
@@ -89,7 +99,7 @@ function coerceOryDates(value: unknown): unknown {
         output[key] = coerceOryDates(raw)
     }
 
-    return output
+    return output as unknown as T
 }
 
 export default async function ErrorPage(props: OryPageParams) {

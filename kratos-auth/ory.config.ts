@@ -16,8 +16,10 @@ const config: OryClientConfiguration = {
         recovery_ui_url: "/auth/recovery",
         login_ui_url: "/auth/login",
         settings_ui_url: "/auth/settings",
-        default_locale: "",
-        locale_behavior: "11184809"
+        default_locale: "en",
+        enabled_locales: ["en"],
+        translations: [],
+        locale_behavior: "11184809",
     },
 }
 

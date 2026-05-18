@@ -861,13 +861,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ory/client-fetch@npm:1.21.5":
-  version: 1.21.5
-  resolution: "@ory/client-fetch@npm:1.21.5"
-  checksum: 10c0/3a59fa31b653c7fbad9eb9e143ecfd1e3559c3fc476e539ed4a47c42bcd6e9de866374379a2315366216b9be58fbf3b93bbf77aeec7ffc14b4deeb300df3a8d3
-  languageName: node
-  linkType: hard
-
 "@ory/client-fetch@npm:1.22.22":
   version: 1.22.22
   resolution: "@ory/client-fetch@npm:1.22.22"

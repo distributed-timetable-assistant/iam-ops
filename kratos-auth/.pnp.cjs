@@ -1073,13 +1073,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@ory/client-fetch", [\
-      ["npm:1.21.5", {\
-        "packageLocation": "../../../.yarn/berry/cache/@ory-client-fetch-npm-1.21.5-dd194722fa-10c0.zip/node_modules/@ory/client-fetch/",\
-        "packageDependencies": [\
-          ["@ory/client-fetch", "npm:1.21.5"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.22.22", {\
         "packageLocation": "../../../.yarn/berry/cache/@ory-client-fetch-npm-1.22.22-14cfe95af9-10c0.zip/node_modules/@ory/client-fetch/",\
         "packageDependencies": [\
@@ -1100,7 +1093,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/__virtual__/@ory-elements-react-virtual-4d8acfe1ff/4/.yarn/berry/cache/@ory-elements-react-npm-1.1.0-ddb7d469bb-10c0.zip/node_modules/@ory/elements-react/",\
         "packageDependencies": [\
           ["@marsidev/react-turnstile", "virtual:4d8acfe1ffafe08206524292c8220d1598737d2c9444e35321984c98d1fbd4e5ef30273757ace46e3f5c6e982f2b7fe26bd2f1cf7b5bc3853275f4a466b19c2d#npm:1.5.2"],\
-          ["@ory/client-fetch", "npm:1.21.5"],\
+          ["@ory/client-fetch", "npm:1.22.22"],\
           ["@ory/elements-react", "virtual:42834ac08bd658d50e2e9d801a570ddc7bb933b0cfa96192e49c5c424afc440c9c7d751e861cf7341468c3280e9021bc8267b660a7534b8d2f96b4a3ad5bc236#npm:1.1.0"],\
           ["@radix-ui/react-dropdown-menu", "virtual:4d8acfe1ffafe08206524292c8220d1598737d2c9444e35321984c98d1fbd4e5ef30273757ace46e3f5c6e982f2b7fe26bd2f1cf7b5bc3853275f4a466b19c2d#npm:2.1.14"],\
           ["@radix-ui/react-switch", "virtual:4d8acfe1ffafe08206524292c8220d1598737d2c9444e35321984c98d1fbd4e5ef30273757ace46e3f5c6e982f2b7fe26bd2f1cf7b5bc3853275f4a466b19c2d#npm:1.2.4"],\
