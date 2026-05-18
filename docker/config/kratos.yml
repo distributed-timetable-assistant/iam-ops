@@ -28,6 +28,14 @@ selfservice:
   allowed_return_urls:
     - http://localhost:3000
     - http://127.0.0.1:3000
+    - http://localhost:4455
+    - http://localhost:4455/
+    - http://localhost:4455/svc1
+    - http://localhost:4455/svc2
+    - http://127.0.0.1:4455
+    - http://127.0.0.1:4455/
+    - http://127.0.0.1:4455/svc1
+    - http://127.0.0.1:4455/svc2
     - http://localhost:19006/Callback
     - exp://localhost:8081/--/Callback
 

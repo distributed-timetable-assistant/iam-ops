@@ -63,7 +63,33 @@ async function getSelfServiceError(searchParams: OryPageParams["searchParams"]) 
         }
     }
 
-    return res.json().catch(() => null)
+    const data = await res.json().catch(() => null)
+    return coerceOryDates(data)
+}
+
+function coerceOryDates(value: unknown): unknown {
+    if (!value) return value
+
+    if (Array.isArray(value)) {
+        return value.map(coerceOryDates)
+    }
+
+    if (typeof value !== "object") return value
+
+    const input = value as Record<string, unknown>
+    const output: Record<string, unknown> = {}
+
+    for (const [key, raw] of Object.entries(input)) {
+        if (typeof raw === "string" && key.endsWith("_at")) {
+            const date = new Date(raw)
+            output[key] = Number.isNaN(date.getTime()) ? raw : date
+            continue
+        }
+
+        output[key] = coerceOryDates(raw)
+    }
+
+    return output
 }
 
 export default async function ErrorPage(props: OryPageParams) {

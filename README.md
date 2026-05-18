@@ -41,6 +41,7 @@ Then open:
 - Kratos admin API: http://localhost:4434
 - MailSlurper UI: http://localhost:4436
 - MailSlurper API: http://localhost:4437
+- Oathkeeper (SSO proxy): http://localhost:4455
 
 ## Common flows / URLs
 
@@ -63,7 +64,30 @@ The Kratos config points the browser-based flows at the Next.js UI:
 - Mail delivery:
   - Kratos courier is configured to send email to the `mailslurper` container.
 - Frontend API base:
-  - `kratos-auth/.env` sets `NEXT_PUBLIC_ORY_SDK_URL=http://127.0.0.1:4433/`.
+  - `kratos-auth/.env` sets `NEXT_PUBLIC_ORY_SDK_URL=http://localhost:4433/`.
+
+## “Gatekeeper” SSO (no re-login between services)
+
+This repo includes Ory Oathkeeper as a reverse-proxy “gatekeeper”. It validates the user’s **existing Kratos session cookie** via `kratos:4433/sessions/whoami` and then forwards the request to upstream services.
+
+Example protected services (for demo) are exposed via Oathkeeper:
+
+- Service 1: http://localhost:4455/svc1
+- Service 2: http://localhost:4455/svc2
+
+Behavior:
+
+- If you’re **not** logged in, Oathkeeper redirects you to http://localhost:3000/auth/login.
+- After you log in once, you can open both `/svc1` and `/svc2` without being asked for credentials again (same browser session).
+
+To add your own services, edit:
+
+- `docker/config/rules.json` (add a new rule with an `upstream.url` pointing at your container)
+- `docker/docker-compose.yml` (add the service container to the same `intranet` network)
+
+Notes:
+
+- This is cookie/session-based SSO for browser traffic. If you need OAuth2 access tokens for APIs, you’ll typically add an OAuth2 server (commonly Ory Hydra) in addition to Kratos.
 
 ## Resetting local state
 
@@ -79,6 +103,7 @@ Then start again with the Quickstart steps.
 ## Troubleshooting
 
 - **Port already in use**: `4433`, `4434`, `4436`, `4437`, or `3000` are occupied — stop the conflicting process or change port mappings.
+- **Oathkeeper not reachable**: ensure `4455`/`4456` are free and the `oathkeeper` container is running.
 - **“CORS” errors in the browser**: verify you’re using `http://localhost:3000` (or `127.0.0.1:3000`) and that Kratos is running.
 - **Emails not arriving**: confirm `mailslurper` is up and check http://localhost:4436.
 

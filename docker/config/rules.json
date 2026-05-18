@@ -1,0 +1,50 @@
+[
+  {
+    "id": "svc1",
+    "match": {
+      "url": "http://localhost:4455/svc1<.*>",
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    },
+    "authenticators": [
+      {
+        "handler": "cookie_session"
+      }
+    ],
+    "authorizer": {
+      "handler": "allow"
+    },
+    "mutators": [
+      {
+        "handler": "header"
+      }
+    ],
+    "upstream": {
+      "url": "http://whoami-svc1:80",
+      "strip_path": "/svc1"
+    }
+  },
+  {
+    "id": "svc2",
+    "match": {
+      "url": "http://localhost:4455/svc2<.*>",
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    },
+    "authenticators": [
+      {
+        "handler": "cookie_session"
+      }
+    ],
+    "authorizer": {
+      "handler": "allow"
+    },
+    "mutators": [
+      {
+        "handler": "header"
+      }
+    ],
+    "upstream": {
+      "url": "http://whoami-svc2:80",
+      "strip_path": "/svc2"
+    }
+  }
+]

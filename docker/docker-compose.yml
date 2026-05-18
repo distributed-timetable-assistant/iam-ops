@@ -58,6 +58,32 @@ services:
       - '4437:4437'
     networks:
       - intranet
+  oathkeeper:
+    image: oryd/oathkeeper:v26.2.0
+    ports:
+      - '4455:4455' # proxy
+      - '4456:4456' # api
+    command: serve -c /etc/config/oathkeeper/oathkeeper.yml
+    volumes:
+      - type: bind
+        source: ./config
+        target: /etc/config/oathkeeper
+        read_only: true
+    networks:
+      - intranet
+    restart: unless-stopped
+    depends_on:
+      - kratos
+  whoami-svc1:
+    image: traefik/whoami:v1.10
+    networks:
+      - intranet
+    restart: unless-stopped
+  whoami-svc2:
+    image: traefik/whoami:v1.10
+    networks:
+      - intranet
+    restart: unless-stopped
 networks:
   intranet:
 volumes: {}
