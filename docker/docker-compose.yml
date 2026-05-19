@@ -1,5 +1,50 @@
 version: '3.7'
 services:
+  hydra-db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=hydra
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=hydra
+    networks:
+      - intranet
+    restart: unless-stopped
+
+  hydra-migrate:
+    image: oryd/hydra:v26.2.0
+    depends_on:
+      - hydra-db
+    environment:
+      - DSN=postgres://hydra:secret@hydra-db:5432/hydra?sslmode=disable
+    volumes:
+      - type: bind
+        source: ./config
+        target: /etc/config/hydra
+        read_only: true
+    command: migrate -c /etc/config/hydra/hydra.yml sql -e --yes
+    networks:
+      - intranet
+    restart: on-failure
+
+  hydra:
+    image: oryd/hydra:v26.2.0
+    depends_on:
+      - hydra-migrate
+    ports:
+      - "4444:4444" # public
+      - "4445:4445" # admin
+    environment:
+      - DSN=postgres://hydra:secret@hydra-db:5432/hydra?sslmode=disable
+    command: serve -c /etc/config/hydra/hydra.yml all --dev
+    volumes:
+      - type: bind
+        source: ./config
+        target: /etc/config/hydra
+        read_only: true
+    networks:
+      - intranet
+    restart: unless-stopped
+
   kratos-migrate:
     image: oryd/kratos:v26.2.0
     user: "${UID:-1000}:${GID:-1000}"

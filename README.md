@@ -1,10 +1,12 @@
 # iam-ops
 
-Local, dockerized Ory Kratos setup (identity, login/registration, recovery, verification) backed by SQLite, plus a Next.js UI (`kratos-auth/`) using Ory Elements.
+Local, dockerized Ory Kratos + Oathkeeper + Hydra setup backed by SQLite, plus a Next.js UI (`kratos-auth/`) using Ory Elements.
 
 ## What’s in here
 
 - `docker/docker-compose.yml`: Kratos + migration job, Kratos self-service UI (node), and MailSlurper
+- `docker/config/hydra.yml`: Hydra config (OAuth2/OIDC issuer)
+- `kratos-auth/app/hydra/*`: Hydra login/consent/logout endpoints integrated with Kratos sessions
 - `docker/config/kratos.yml`: Kratos config (CORS, flows, SMTP courier, identity schema, etc.)
 - `docker/config/identity.schema.json`: identity traits schema (email + optional name)
 - `users.db*`: SQLite database used by Kratos (persisted in this repo for local dev)
@@ -19,7 +21,7 @@ Local, dockerized Ory Kratos setup (identity, login/registration, recovery, veri
 
 ## Quickstart
 
-1) Start Kratos (and MailSlurper):
+1) Start the stack (Kratos, Hydra, Oathkeeper, MailSlurper):
 
 ```bash
 docker compose -f docker/docker-compose.yml up -d
@@ -39,6 +41,8 @@ Then open:
 - Next.js UI: http://localhost:3000
 - Kratos public API: http://localhost:4433
 - Kratos admin API: http://localhost:4434
+- Hydra public API (OIDC): http://localhost:4444
+- Hydra admin API: http://localhost:4445
 - MailSlurper UI: http://localhost:4436
 - MailSlurper API: http://localhost:4437
 - Oathkeeper (SSO proxy): http://localhost:4455
@@ -65,6 +69,7 @@ The Kratos config points the browser-based flows at the Next.js UI:
   - Kratos courier is configured to send email to the `mailslurper` container.
 - Frontend API base:
   - `kratos-auth/.env` sets `NEXT_PUBLIC_ORY_SDK_URL=http://localhost:4433/`.
+  - Optional overrides (server-side only): `HYDRA_ADMIN_URL`, `KRATOS_PUBLIC_URL`, `PUBLIC_BASE_URL`.
 
 ## “Gatekeeper” SSO (no re-login between services)
 
@@ -85,9 +90,15 @@ To add your own services, edit:
 - `docker/config/rules.json` (add a new rule with an `upstream.url` pointing at your container)
 - `docker/docker-compose.yml` (add the service container to the same `intranet` network)
 
-Notes:
+## Hydra (OAuth2/OIDC) integrated with Kratos
 
-- This is cookie/session-based SSO for browser traffic. If you need OAuth2 access tokens for APIs, you’ll typically add an OAuth2 server (commonly Ory Hydra) in addition to Kratos.
+Hydra is configured to use the Next.js app for login/consent/logout:
+
+- Login: http://localhost:3000/hydra/login
+- Consent: http://localhost:3000/hydra/consent
+- Logout: http://localhost:3000/hydra/logout
+
+Those endpoints check the existing Kratos browser session (`/sessions/whoami`). If you’re not logged in, they send you through the existing `/auth/login` UI and then continue the Hydra flow.
 
 ## Resetting local state
 
