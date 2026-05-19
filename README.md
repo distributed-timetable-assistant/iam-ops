@@ -2,6 +2,10 @@
 
 Local, dockerized Ory Kratos + Oathkeeper + Hydra setup backed by SQLite, plus a Next.js UI (`kratos-auth/`) using Ory Elements.
 
+Deep dive docs:
+
+- `docs/ORY_STACK_GUIDE.md` (concepts, “gatekeeper”/SSO workflow, Hydra OAuth2/OIDC workflow, best practices)
+
 ## What’s in here
 
 - `docker/docker-compose.yml`: Kratos + migration job, Kratos self-service UI (node), and MailSlurper
