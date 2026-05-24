@@ -1,0 +1,8 @@
+resources:
+  - configmap.yaml
+  - persistent-volume-claim.yml
+  - deployment.yaml
+  - service-public.yml
+  - service-admin.yml
+  - certificate.yml
+  - ingress.yml

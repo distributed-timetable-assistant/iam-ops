@@ -125,3 +125,7 @@ Then start again with the Quickstart steps.
 ## Security
 
 This repo is meant for local development. Secrets in `docker/config/kratos.yml` (cookie/cipher) are intentionally insecure and must be changed before any real deployment.
+
+## Kubernetes
+
+Kustomize manifests live in `kubernetes/`. See `kubernetes/README.md`.

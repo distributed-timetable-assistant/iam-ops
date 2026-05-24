@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kratos-auth
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kratos-auth
+  template:
+    metadata:
+      labels:
+        app: kratos-auth
+    spec:
+      containers:
+        - name: kratos-auth
+          image: iam-ops/kratos-auth:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NEXT_PUBLIC_ORY_SDK_URL
+              value: https://kratos.st.dita.hasankarimi.ir/
+            - name: PUBLIC_BASE_URL
+              value: https://iam.st.dita.hasankarimi.ir
+            - name: KRATOS_PUBLIC_URL
+              value: http://kratos-public:4433
+            - name: HYDRA_ADMIN_URL
+              value: http://hydra-admin:4445
+          ports:
+            - name: http
+              containerPort: 3000
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512Mi
+            requests:
+              cpu: 0m
+              memory: 0Mi
+

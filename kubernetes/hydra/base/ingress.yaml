@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hydra
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - hydra.st.dita.hasankarimi.ir
+      secretName: hydra-tls
+  rules:
+    - host: hydra.st.dita.hasankarimi.ir
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hydra-public
+                port:
+                  name: http
+

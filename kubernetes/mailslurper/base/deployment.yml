@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mailslurper
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mailslurper
+  template:
+    metadata:
+      labels:
+        app: mailslurper
+    spec:
+      containers:
+        - name: mailslurper
+          image: oryd/mailslurper:latest-smtps
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: ui
+              containerPort: 4436
+            - name: api
+              containerPort: 4437
+            - name: smtp
+              containerPort: 1025
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 0m
+              memory: 0Mi
+

@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kratos-auth
+spec:
+  secretName: kratos-auth-tls
+  dnsNames:
+    - "iam.st.dita.hasankarimi.ir"
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+

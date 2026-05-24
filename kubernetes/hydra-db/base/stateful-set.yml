@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hydra-db
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hydra-db
+  serviceName: hydra-db
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  template:
+    metadata:
+      labels:
+        app: hydra-db
+    spec:
+      containers:
+        - name: hydra-db
+          image: postgres:17
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: hydra-db
+          ports:
+            - name: tcp
+              containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512Mi
+            requests:
+              cpu: 0m
+              memory: 0Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: hydra-db
+
