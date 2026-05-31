@@ -6,10 +6,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - hydra.st.dita.hasankarimi.ir
+        - auth.outi.ir
       secretName: hydra-tls
   rules:
-    - host: hydra.st.dita.hasankarimi.ir
+    - host: auth.outi.ir
       http:
         paths:
           - path: /

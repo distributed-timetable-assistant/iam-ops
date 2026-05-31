@@ -6,10 +6,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - kratos.st.dita.hasankarimi.ir
+        - kratos.outi.ir
       secretName: kratos-tls
   rules:
-    - host: kratos.st.dita.hasankarimi.ir
+    - host: kratos.outi.ir
       http:
         paths:
           - path: /
