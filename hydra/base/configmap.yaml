@@ -21,7 +21,7 @@ data:
 
     urls:
       self:
-        issuer: https://hydra.st.dita.hasankarimi.ir
-      login: https://iam.st.dita.hasankarimi.ir/hydra/login
-      consent: https://iam.st.dita.hasankarimi.ir/hydra/consent
-      logout: https://iam.st.dita.hasankarimi.ir/hydra/logout
+        issuer: https://auth.outi.ir
+      login: https://web.login.outi.ir/hydra/login
+      consent: https://web.login.outi.ir/hydra/consent
+      logout: https://web.login.outi.ir/hydra/logout

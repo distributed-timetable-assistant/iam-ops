@@ -5,7 +5,7 @@ metadata:
 spec:
   secretName: hydra-tls
   dnsNames:
-    - "hydra.st.dita.hasankarimi.ir"
+    - "auth.outi.ir"
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer

@@ -5,7 +5,7 @@ metadata:
 spec:
   secretName: gatekeeper-tls
   dnsNames:
-    - "gatekeeper.st.dita.hasankarimi.ir"
+    - "login.outi.ir"
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer

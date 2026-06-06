@@ -37,12 +37,12 @@ data:
 
     serve:
       public:
-        base_url: https://kratos.st.dita.hasankarimi.ir/
+        base_url: https://kratos.outi.ir/
         cors:
           enabled: true
           allow_credentials: true
           allowed_origins:
-            - https://iam.st.dita.hasankarimi.ir
+            - https://web.login.outi.ir
           allowed_methods:
             - POST
             - GET
@@ -56,13 +56,13 @@ data:
         base_url: http://kratos-admin:4434/
 
     selfservice:
-      default_browser_return_url: https://iam.st.dita.hasankarimi.ir/
+      default_browser_return_url: https://web.login.outi.ir/
       allowed_return_urls:
-        - https://iam.st.dita.hasankarimi.ir
-        - https://gatekeeper.st.dita.hasankarimi.ir
-        - https://gatekeeper.st.dita.hasankarimi.ir/
-        - https://gatekeeper.st.dita.hasankarimi.ir/svc1
-        - https://gatekeeper.st.dita.hasankarimi.ir/svc2
+        - https://web.login.outi.ir
+        - https://login.outi.ir
+        - https://login.outi.ir/
+        - https://login.outi.ir/svc1
+        - https://login.outi.ir/svc2
 
       methods:
         password:
@@ -80,36 +80,36 @@ data:
 
       flows:
         error:
-          ui_url: https://iam.st.dita.hasankarimi.ir/auth/error
+          ui_url: https://web.login.outi.ir/auth/error
 
         settings:
-          ui_url: https://iam.st.dita.hasankarimi.ir/auth/settings
+          ui_url: https://web.login.outi.ir/auth/settings
           privileged_session_max_age: 15m
           required_aal: highest_available
 
         recovery:
           enabled: true
-          ui_url: https://iam.st.dita.hasankarimi.ir/auth/recovery
+          ui_url: https://web.login.outi.ir/auth/recovery
           use: code
 
         verification:
           enabled: true
-          ui_url: https://iam.st.dita.hasankarimi.ir/auth/verification
+          ui_url: https://web.login.outi.ir/auth/verification
           use: code
           after:
-            default_browser_return_url: https://iam.st.dita.hasankarimi.ir/
+            default_browser_return_url: https://web.login.outi.ir/
 
         logout:
           after:
-            default_browser_return_url: https://iam.st.dita.hasankarimi.ir/auth/login
+            default_browser_return_url: https://web.login.outi.ir/auth/login
 
         login:
-          ui_url: https://iam.st.dita.hasankarimi.ir/auth/login
+          ui_url: https://web.login.outi.ir/auth/login
           lifespan: 10m
 
         registration:
           lifespan: 10m
-          ui_url: https://iam.st.dita.hasankarimi.ir/auth/registration
+          ui_url: https://web.login.outi.ir/auth/registration
           after:
             password:
               hooks:

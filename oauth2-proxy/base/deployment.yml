@@ -22,8 +22,8 @@ spec:
                 name: oauth2-proxy
           args:
             - --provider=oidc
-            - --oidc-issuer-url=https://hydra.st.dita.hasankarimi.ir
-            - --redirect-url=https://gatekeeper.st.dita.hasankarimi.ir/oauth2/callback
+            - --oidc-issuer-url=https://auth.outi.ir
+            - --redirect-url=https://login.outi.ir/oauth2/callback
             - --email-domain=*
             - --http-address=0.0.0.0:4180
             - --upstream=static://200

@@ -6,10 +6,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - iam.st.dita.hasankarimi.ir
+        - web.login.outi.ir
       secretName: kratos-auth-tls
   rules:
-    - host: iam.st.dita.hasankarimi.ir
+    - host: web.login.outi.ir
       http:
         paths:
           - path: /

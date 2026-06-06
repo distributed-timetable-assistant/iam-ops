@@ -19,9 +19,9 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: NEXT_PUBLIC_ORY_SDK_URL
-              value: https://kratos.st.dita.hasankarimi.ir/
+              value: https://kratos.outi.ir/
             - name: PUBLIC_BASE_URL
-              value: https://iam.st.dita.hasankarimi.ir
+              value: https://web.login.outi.ir
             - name: KRATOS_PUBLIC_URL
               value: http://kratos-public:4433
             - name: HYDRA_ADMIN_URL

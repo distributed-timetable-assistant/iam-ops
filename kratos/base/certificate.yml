@@ -5,7 +5,7 @@ metadata:
 spec:
   secretName: kratos-tls
   dnsNames:
-    - "kratos.st.dita.hasankarimi.ir"
+    - "kratos.outi.ir"
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
