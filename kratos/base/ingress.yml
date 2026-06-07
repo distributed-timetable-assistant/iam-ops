@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kratos
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - kratos.outi.ir
+      secretName: kratos-tls
+  rules:
+    - host: kratos.outi.ir
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kratos-public
+                port:
+                  name: http
+

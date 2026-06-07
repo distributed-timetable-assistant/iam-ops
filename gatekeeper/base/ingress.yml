@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gatekeeper
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy:4180/oauth2/auth
+    nginx.ingress.kubernetes.io/auth-signin: https://login.outi.ir/oauth2/start?rd=$scheme://$host$request_uri
+    nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email,Authorization
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - login.outi.ir
+      secretName: gatekeeper-tls
+  rules:
+    - host: login.outi.ir
+      http:
+        paths:
+          - path: /oauth2
+            pathType: Prefix
+            backend:
+              service:
+                name: oauth2-proxy
+                port:
+                  name: http
+          - path: /svc1
+            pathType: Prefix
+            backend:
+              service:
+                name: whoami-svc1
+                port:
+                  name: http
+          - path: /svc2
+            pathType: Prefix
+            backend:
+              service:
+                name: whoami-svc2
+                port:
+                  name: http

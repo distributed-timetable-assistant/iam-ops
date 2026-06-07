@@ -1,0 +1,25 @@
+name: master
+on: push
+
+jobs:
+  stage-deploy:
+    continue-on-error: true
+    strategy:
+      matrix:
+        apps:
+          - hydra-db
+          - hydra
+          - kratos
+          - kratos-auth
+          - mailslurper
+          - oauth2-proxy
+          - whoami-svc1
+          - whoami-svc2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONF }}
+        with:
+          args: apply -k ${{ matrix.apps }}/overlays/stage

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-svc2
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whoami-svc2
+  template:
+    metadata:
+      labels:
+        app: whoami-svc2
+    spec:
+      containers:
+        - name: whoami-svc2
+          image: traefik/whoami:v1.10
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            limits:
+              cpu: 50m
+              memory: 64Mi
+            requests:
+              cpu: 0m
+              memory: 0Mi
+

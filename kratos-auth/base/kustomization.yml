@@ -1,0 +1,15 @@
+resources:
+  - deployment.yml
+  - service.yml
+  - certificate.yml
+  - ingress.yml
+
+configMapGenerator:
+  - name: kratos-auth-public-assets
+    files:
+      - file.svg=public/file.svg
+      - globe.svg=public/globe.svg
+      - logo.svg=public/logo.svg
+      - next.svg=public/next.svg
+      - vercel.svg=public/vercel.svg
+      - window.svg=public/window.svg
