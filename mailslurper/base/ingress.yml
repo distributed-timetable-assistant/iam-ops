@@ -6,10 +6,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - mail.st.dita.hasankarimi.ir
+        - mail.outi.ir
       secretName: mailslurper-tls
   rules:
-    - host: mail.st.dita.hasankarimi.ir
+    - host: mail.outi.ir
       http:
         paths:
           - path: /
