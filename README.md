@@ -73,7 +73,7 @@ The GitHub Actions workflow follows the same pattern and applies `*/overlays/sta
 
 ## Image Expectations
 
-- `kratos-auth/base/deployment.yml` expects an image named `iam-ops/kratos-auth:latest`
+- `kratos-auth/base/deployment.yml` expects an image named `ghcr.io/distributed-timetable-assistant/kratos-auth:latest`
 - `kratos-auth/base/kustomization.yml` generates a ConfigMap from `kratos-auth/base/public/*.svg` and mounts it at `/app/public`
 - The other workloads use published upstream images such as `oryd/kratos`, `oryd/hydra`, `quay.io/oauth2-proxy/oauth2-proxy`, and `oryd/mailslurper`
 
