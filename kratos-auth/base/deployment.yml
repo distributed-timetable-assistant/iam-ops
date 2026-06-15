@@ -13,6 +13,8 @@ spec:
       labels:
         app: kratos-auth
     spec:
+      imagePullSecrets:
+        - name: ghcr-credentials
       containers:
         - name: kratos-auth
           image: ghcr.io/distributed-timetable-assistant/kratos-auth:latest

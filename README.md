@@ -79,6 +79,22 @@ The GitHub Actions workflow follows the same pattern and applies `*/overlays/sta
 
 If you change the `kratos-auth` image name or registry, update the deployment manifest accordingly.
 
+## GHCR Pull Access
+
+`kratos-auth` uses a GHCR image, so the `iam` namespace needs a pull secret named `ghcr-credentials`.
+
+Example:
+
+```bash
+kubectl -n iam create secret docker-registry ghcr-credentials \
+  --docker-server=ghcr.io \
+  --docker-username=YOUR_GITHUB_USERNAME \
+  --docker-password=YOUR_GITHUB_TOKEN_WITH_read:packages \
+  --docker-email=YOUR_EMAIL
+```
+
+If you make the package public in GHCR, you can remove `imagePullSecrets` from the deployment.
+
 ## Hostnames
 
 The manifests currently reference these example hostnames:
