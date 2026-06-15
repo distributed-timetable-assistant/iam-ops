@@ -1,16 +1,12 @@
-FROM node:20-alpine AS deps
-WORKDIR /app
-
-COPY package.json yarn.lock ./
-RUN corepack enable && yarn install --immutable
-
 FROM node:20-alpine AS build
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY --from=deps /app /app
+COPY package.json yarn.lock ./
+RUN corepack enable && yarn install --immutable
+
 COPY . .
-RUN corepack enable && yarn build
+RUN yarn build
 
 FROM node:20-alpine AS runner
 WORKDIR /app
