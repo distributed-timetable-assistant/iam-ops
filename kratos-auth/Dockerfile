@@ -3,7 +3,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY . .
-RUN printf 'nodeLinker: pnp\nenableGlobalCache: false\ncacheFolder: .yarn/berry/cache\n' > .yarnrc.yml
+RUN printf 'nodeLinker: node-modules\n' > .yarnrc.yml
 RUN corepack enable && yarn install --immutable
 RUN yarn build
 
