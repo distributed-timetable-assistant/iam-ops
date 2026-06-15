@@ -2,11 +2,9 @@ FROM node:20-alpine AS build
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY package.json yarn.lock ./
+COPY . .
 RUN printf 'nodeLinker: pnp\nenableGlobalCache: false\ncacheFolder: .yarn/berry/cache\n' > .yarnrc.yml
 RUN corepack enable && yarn install --immutable
-
-COPY . .
 RUN yarn build
 
 FROM node:20-alpine AS runner
