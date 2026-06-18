@@ -53,6 +53,8 @@ kratos/
   - `kratos`
   - `oauth2-proxy`
 
+Kratos is strict about its cipher secret: `secrets.cipher.0` must be a raw string no longer than 32 characters. If you generated a 32-byte key and base64-encoded it, the resulting 44-character value will be rejected and Kratos will crash on startup.
+
 ## Deploy
 
 Apply the stage overlays from the repo root:
@@ -73,8 +75,8 @@ The GitHub Actions workflow follows the same pattern and applies `*/overlays/sta
 
 ## Image Expectations
 
-- `kratos-auth/base/deployment.yml` expects an image named `ghcr.io/distributed-timetable-assistant/kratos-auth:latest`
-- `kratos-auth/base/kustomization.yml` generates a ConfigMap from `kratos-auth/base/public/*.svg` and mounts it at `/app/public`
+- `kratos-auth/base/deployment.yaml` expects an image named `ghcr.io/distributed-timetable-assistant/kratos-auth:latest`
+- `kratos-auth/base/kustomization.yaml` generates a ConfigMap from `kratos-auth/base/public/*.svg` and mounts it at `/app/public`
 - The other workloads use published upstream images such as `oryd/kratos`, `oryd/hydra`, `quay.io/oauth2-proxy/oauth2-proxy`, and `oryd/mailslurper`
 
 If you change the `kratos-auth` image name or registry, update the deployment manifest accordingly.

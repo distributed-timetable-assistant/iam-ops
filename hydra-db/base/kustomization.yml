@@ -1,5 +1,0 @@
-resources:
-  - persistent-volume-claim.yml
-  - stateful-set.yml
-  - service.yml
-

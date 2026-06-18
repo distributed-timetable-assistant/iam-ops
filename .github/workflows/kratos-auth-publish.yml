@@ -1,5 +1,8 @@
 name: kratos-auth-publish
-on: push
+on:
+  push:
+    paths:
+      - "kratos-auth/**"
 
 permissions:
   contents: read
