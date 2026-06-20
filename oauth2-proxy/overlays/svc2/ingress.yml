@@ -6,10 +6,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - login.outi.ir
-      secretName: gatekeeper-tls
+        - svc2.login.outi.ir
+      secretName: svc2-tls
   rules:
-    - host: login.outi.ir
+    - host: svc2.login.outi.ir
       http:
         paths:
           - path: /oauth2/svc2

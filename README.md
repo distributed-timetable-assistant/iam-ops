@@ -112,7 +112,8 @@ The manifests currently reference these example hostnames:
 - `iam.st.dita.hasankarimi.ir`
 - `kratos.st.dita.hasankarimi.ir`
 - `hydra.st.dita.hasankarimi.ir`
-- `gatekeeper.st.dita.hasankarimi.ir`
+- `svc1.login.outi.ir`
+- `svc2.login.outi.ir`
 - `mail.st.dita.hasankarimi.ir`
 
 If your cluster uses different DNS names, update the ingress and certificate manifests in the corresponding `base/` folders.

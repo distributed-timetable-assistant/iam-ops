@@ -19,7 +19,7 @@ spec:
           args:
             - --provider=oidc
             - --oidc-issuer-url=https://auth.outi.ir
-            - --redirect-url=https://login.outi.ir/oauth2/svc2/callback
+            - --redirect-url=https://svc2.login.outi.ir/oauth2/svc2/callback
             - --proxy-prefix=/oauth2/svc2
             - --email-domain=*
             - --http-address=0.0.0.0:4180
