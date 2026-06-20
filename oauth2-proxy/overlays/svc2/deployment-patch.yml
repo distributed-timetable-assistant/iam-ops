@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-proxy
+spec:
+  selector:
+    matchLabels:
+      app: oauth2-proxy-svc2
+  template:
+    metadata:
+      labels:
+        app: oauth2-proxy-svc2
+    spec:
+      containers:
+        - name: oauth2-proxy
+          envFrom:
+            - secretRef:
+                name: oauth2-proxy-svc2
+          args:
+            - --provider=oidc
+            - --oidc-issuer-url=https://auth.outi.ir
+            - --redirect-url=https://login.outi.ir/oauth2/svc2/callback
+            - --proxy-prefix=/oauth2/svc2
+            - --email-domain=*
+            - --http-address=0.0.0.0:4180
+            - --upstream=static://200
+            - --cookie-secure=true
+            - --cookie-samesite=lax
+            - --cookie-name=_oauth2_proxy_svc2
+            - --set-xauthrequest=true
+            - --pass-authorization-header=true
+            - --pass-access-token=true
+            - --skip-provider-button=true

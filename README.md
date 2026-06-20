@@ -37,9 +37,9 @@ kratos/
 - `hydra-db`: PostgreSQL backing store for Hydra
 - `kratos-auth`: the IAM UI entrypoint
 - `mailslurper`: SMTP test inbox for Kratos courier mail
-- `oauth2-proxy`: OIDC gatekeeper proxy in front of protected services
-- `gatekeeper`: ingress that routes `/oauth2`, `/svc1`, and `/svc2`
-- `whoami-svc1` and `whoami-svc2`: demo upstream services behind the gatekeeper
+- `oauth2-proxy`: two isolated OIDC gatekeepers, one for `/svc1` and one for `/svc2`
+- `gatekeeper`: shared TLS certificate for the `login.outi.ir` host
+- `whoami-svc1` and `whoami-svc2`: demo upstream services with separate auth boundaries
 
 ## Prerequisites
 
@@ -51,7 +51,8 @@ kratos/
   - `hydra-db`
   - `hydra`
   - `kratos`
-  - `oauth2-proxy`
+  - `oauth2-proxy-svc1`
+  - `oauth2-proxy-svc2`
 
 ## Deploy
 
@@ -78,6 +79,13 @@ The GitHub Actions workflow follows the same pattern and applies `*/overlays/sta
 - The other workloads use published upstream images such as `oryd/kratos`, `oryd/hydra`, `quay.io/oauth2-proxy/oauth2-proxy`, and `oryd/mailslurper`
 
 If you change the `kratos-auth` image name or registry, update the deployment manifest accordingly.
+
+## Authentication Scope
+
+- `whoami-svc1` and `whoami-svc2` now use separate `oauth2-proxy` instances.
+- Each proxy has its own cookie, OIDC client credentials, and callback path.
+- A browser session established for `/svc1` does not automatically authorize `/svc2`.
+- Kratos still handles the user identity session, while Hydra still issues the OIDC authorization result that each proxy exchanges for its own session.
 
 ## Hostnames
 

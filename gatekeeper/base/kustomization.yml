@@ -1,4 +1,2 @@
 resources:
   - certificate.yml
-  - ingress.yml
-

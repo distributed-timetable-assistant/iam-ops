@@ -4,7 +4,9 @@ Date: 2026-05-31
 
 ## Status
 
-Accepted
+Superseded
+
+> Note: this document described the previous centralized gateway-auth model. The current manifests use service-scoped `oauth2-proxy` instances and per-service ingress boundaries so `/svc1` and `/svc2` are isolated.
 
 ## Context
 
