@@ -13,10 +13,12 @@ spec:
       labels:
         app: kratos-auth
     spec:
+      imagePullSecrets:
+        - name: ghcr-credentials
       containers:
         - name: kratos-auth
-          image: iam-ops/kratos-auth:latest
-          imagePullPolicy: IfNotPresent
+          image: ghcr.io/distributed-timetable-assistant/kratos-auth:latest
+          imagePullPolicy: Always
           env:
             - name: NEXT_PUBLIC_ORY_SDK_URL
               value: https://kratos.outi.ir/
