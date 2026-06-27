@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - ../svc1
   - ../svc2
-  - ../monitor
