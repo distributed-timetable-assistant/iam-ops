@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oauth2-proxy
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - monitor.login.outi.ir
+      secretName: monitor-tls
+  rules:
+    - host: monitor.login.outi.ir
+      http:
+        paths:
+          - path: /oauth2/monitor
+            pathType: Prefix
+            backend:
+              service:
+                name: oauth2-proxy
+                port:
+                  name: http

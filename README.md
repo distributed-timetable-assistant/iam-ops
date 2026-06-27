@@ -11,6 +11,7 @@ This repo now contains Kustomize bases plus `overlays/stage` for each app in the
 - `kratos-auth`
 - `mailslurper`
 - `oauth2-proxy`
+- `monitor`
 - `whoami-svc1`
 - `whoami-svc2`
 
@@ -37,7 +38,8 @@ kratos/
 - `hydra-db`: PostgreSQL backing store for Hydra
 - `kratos-auth`: the IAM UI entrypoint
 - `mailslurper`: SMTP test inbox for Kratos courier mail
-- `oauth2-proxy`: two isolated OIDC gatekeepers, one for `/svc1` and one for `/svc2`
+- `oauth2-proxy`: three isolated OIDC gatekeepers, one for `/svc1`, one for `/svc2`, and one for `monitor`
+- `monitor`: an example protected upstream service behind its own SSO boundary
 - `gatekeeper`: shared TLS certificate for the `login.outi.ir` host
 - `whoami-svc1` and `whoami-svc2`: demo upstream services with separate auth boundaries
 
@@ -53,6 +55,7 @@ kratos/
   - `kratos`
   - `oauth2-proxy-svc1`
   - `oauth2-proxy-svc2`
+  - `oauth2-proxy-monitor`
 
 Kratos is strict about its cipher secret: `secrets.cipher.0` must be a raw string no longer than 32 characters. If you generated a 32-byte key and base64-encoded it, the resulting 44-character value will be rejected and Kratos will crash on startup.
 
@@ -68,6 +71,7 @@ kubectl apply -k kratos/overlays/stage
 kubectl apply -k kratos-auth/overlays/stage
 kubectl apply -k mailslurper/overlays/stage
 kubectl apply -k oauth2-proxy/overlays/stage
+kubectl apply -k monitor/overlays/stage
 kubectl apply -k whoami-svc1/overlays/stage
 kubectl apply -k whoami-svc2/overlays/stage
 ```
@@ -85,8 +89,9 @@ If you change the `kratos-auth` image name or registry, update the deployment ma
 ## Authentication Scope
 
 - `whoami-svc1` and `whoami-svc2` now use separate `oauth2-proxy` instances.
+- `monitor` now has its own `oauth2-proxy` instance and ingress boundary.
 - Each proxy has its own cookie, OIDC client credentials, and callback path.
-- A browser session established for `/svc1` does not automatically authorize `/svc2`.
+- A browser session established for `/svc1` does not automatically authorize `/svc2` or `monitor`.
 - Kratos still handles the user identity session, while Hydra still issues the OIDC authorization result that each proxy exchanges for its own session.
 
 ## GHCR Pull Access
@@ -114,6 +119,7 @@ The manifests currently reference these example hostnames:
 - `hydra.st.dita.hasankarimi.ir`
 - `svc1.login.outi.ir`
 - `svc2.login.outi.ir`
+- `monitor.login.outi.ir`
 - `mail.st.dita.hasankarimi.ir`
 
 If your cluster uses different DNS names, update the ingress and certificate manifests in the corresponding `base/` folders.
