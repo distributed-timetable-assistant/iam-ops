@@ -1,0 +1,4 @@
+resources:
+  - persistent-volume-claim.yaml
+  - statefulset.yaml
+  - service.yaml

@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oauth2-proxy
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - svc1.login.outi.ir
+      secretName: svc1-tls
+  rules:
+    - host: svc1.login.outi.ir
+      http:
+        paths:
+          - path: /oauth2/svc1
+            pathType: Prefix
+            backend:
+              service:
+                name: oauth2-proxy
+                port:
+                  name: http

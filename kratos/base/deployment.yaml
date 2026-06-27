@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kratos
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kratos
+  template:
+    metadata:
+      labels:
+        app: kratos
+    spec:
+      initContainers:
+        - name: migrate
+          image: oryd/kratos:v26.2.0
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: kratos
+          command:
+            - kratos
+            - -c
+            - /etc/config/kratos/kratos.yml
+            - migrate
+            - sql
+            - -e
+            - --yes
+            - up
+          volumeMounts:
+            - name: sqlite
+              mountPath: /var/lib/sqlite
+            - name: config
+              mountPath: /etc/config/kratos
+              readOnly: true
+      containers:
+        - name: kratos
+          image: oryd/kratos:v26.2.0
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: kratos
+          command:
+            - kratos
+            - serve
+            - -c
+            - /etc/config/kratos/kratos.yml
+            - --dev
+            - --watch-courier
+          ports:
+            - name: public
+              containerPort: 4433
+            - name: admin
+              containerPort: 4434
+          volumeMounts:
+            - name: sqlite
+              mountPath: /var/lib/sqlite
+            - name: config
+              mountPath: /etc/config/kratos
+              readOnly: true
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512Mi
+            requests:
+              cpu: 0m
+              memory: 0Mi
+      volumes:
+        - name: sqlite
+          persistentVolumeClaim:
+            claimName: kratos-sqlite
+        - name: config
+          configMap:
+            name: kratos

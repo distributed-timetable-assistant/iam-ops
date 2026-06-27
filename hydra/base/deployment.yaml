@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hydra
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hydra
+  template:
+    metadata:
+      labels:
+        app: hydra
+    spec:
+      initContainers:
+        - name: migrate
+          image: oryd/hydra:v26.2.0
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: hydra
+          command:
+            - hydra
+            - migrate
+            - -c
+            - /etc/config/hydra/hydra.yml
+            - sql
+            - -e
+            - --yes
+          volumeMounts:
+            - name: config
+              mountPath: /etc/config/hydra
+              readOnly: true
+      containers:
+        - name: hydra
+          image: oryd/hydra:v26.2.0
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: hydra
+          command:
+            - hydra
+            - serve
+            - -c
+            - /etc/config/hydra/hydra.yml
+            - all
+            - --dev
+          ports:
+            - name: public
+              containerPort: 4444
+            - name: admin
+              containerPort: 4445
+          volumeMounts:
+            - name: config
+              mountPath: /etc/config/hydra
+              readOnly: true
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512Mi
+            requests:
+              cpu: 0m
+              memory: 0Mi
+      volumes:
+        - name: config
+          configMap:
+            name: hydra

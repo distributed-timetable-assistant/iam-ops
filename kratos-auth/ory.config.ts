@@ -1,0 +1,26 @@
+// Copyright © 2024 Ory Corp
+// SPDX-License-Identifier: Apache-2.0
+
+import type { OryClientConfiguration } from "@ory/elements-react"
+
+const config: OryClientConfiguration = {
+    project: {
+        default_redirect_url: "/",
+        error_ui_url: "/auth/error",
+        name: "Ory Authentication Example",
+        registration_enabled: true,
+        verification_enabled: true,
+        recovery_enabled: true,
+        registration_ui_url: "/auth/registration",
+        verification_ui_url: "/auth/verification",
+        recovery_ui_url: "/auth/recovery",
+        login_ui_url: "/auth/login",
+        settings_ui_url: "/auth/settings",
+        default_locale: "en",
+        enabled_locales: ["en"],
+        translations: [],
+        locale_behavior: "11184809",
+    },
+}
+
+export default config

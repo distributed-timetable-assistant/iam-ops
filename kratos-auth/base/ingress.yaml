@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kratos-auth
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - web.login.outi.ir
+      secretName: kratos-auth-tls
+  rules:
+    - host: web.login.outi.ir
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kratos-auth
+                port:
+                  name: http
+
