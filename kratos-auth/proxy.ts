@@ -11,7 +11,10 @@ function isPublicAuthRoute(pathname: string): boolean {
     return (
         pathname === "/" ||
         pathname.startsWith("/auth/") ||
-        pathname.startsWith("/hydra/")
+        pathname.startsWith("/hydra/") ||
+        pathname.startsWith("/self-service/") ||
+        pathname.startsWith("/sessions/") ||
+        pathname.startsWith("/kratos/")
     )
 }
 
