@@ -3,7 +3,7 @@
 
 import { redirect } from "next/navigation"
 import { Login } from "@ory/elements-react/theme"
-import { OryPageParams } from "@ory/nextjs/app"
+import { getServerSession, OryPageParams } from "@ory/nextjs/app"
 
 import config from "@/ory.config"
 import { getKratosBrowserUrl } from "@/app/hydra/_lib/env"
@@ -34,6 +34,11 @@ export default async function LoginPage(props: OryPageParams) {
     const searchParams = await props.searchParams
     const flowId = getFirstQueryParam(searchParams, "flow")
     const returnTo = getFirstQueryParam(searchParams, "return_to")
+    const session = await getServerSession().catch(() => null)
+
+    if (session?.identity?.id && !flowId) {
+        redirect(returnTo ?? "/")
+    }
 
     if (!flowId) {
         const browserFlowUrl = new URL(
@@ -53,6 +58,9 @@ export default async function LoginPage(props: OryPageParams) {
         flow = await getLoginFlowInternal(searchParams)
     } catch (err) {
         console.error("[auth/login] getLoginFlowInternal threw:", err)
+        if (session?.identity?.id) {
+            redirect(returnTo ?? "/")
+        }
         const browserFlowUrl = new URL(
             "/self-service/login/browser",
             getKratosBrowserUrl(),
@@ -64,6 +72,9 @@ export default async function LoginPage(props: OryPageParams) {
     }
 
     if (!flow) {
+        if (session?.identity?.id) {
+            redirect(returnTo ?? "/")
+        }
         const browserFlowUrl = new URL(
             "/self-service/login/browser",
             getKratosBrowserUrl(),
