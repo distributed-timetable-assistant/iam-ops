@@ -11,6 +11,24 @@ on:
       - "oauth2-proxy/**"
       - "whoami-svc1/**"
       - "whoami-svc2/**"
+  workflow_dispatch:
+    inputs:
+      app:
+        description: "Which app to deploy"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - gatekeeper
+          - hydra-db
+          - hydra
+          - kratos
+          - kratos-auth
+          - mailslurper
+          - oauth2-proxy
+          - whoami-svc1
+          - whoami-svc2
 
 jobs:
   detect-changes:
@@ -28,22 +46,31 @@ jobs:
         run: |
           set -euo pipefail
 
-          base='${{ github.event.before }}'
-          head='${{ github.sha }}'
-
-          if [[ "$base" == '0000000000000000000000000000000000000000' ]]; then
-            base="$(git rev-list --max-parents=0 "$head" | tail -n 1)"
-          fi
-
           apps=()
-          while IFS= read -r file; do
-            app="${file%%/*}"
-            case "$app" in
-              gatekeeper|hydra-db|hydra|kratos|kratos-auth|mailslurper|oauth2-proxy|whoami-svc1|whoami-svc2)
-                apps+=("$app")
-                ;;
-            esac
-          done < <(git diff --name-only "$base" "$head")
+          if [[ '${{ github.event_name }}' == 'workflow_dispatch' ]]; then
+            selected='${{ inputs.app }}'
+            if [[ "$selected" == 'all' ]]; then
+              apps=(gatekeeper hydra-db hydra kratos kratos-auth mailslurper oauth2-proxy whoami-svc1 whoami-svc2)
+            else
+              apps=("$selected")
+            fi
+          else
+            base='${{ github.event.before }}'
+            head='${{ github.sha }}'
+
+            if [[ "$base" == '0000000000000000000000000000000000000000' ]]; then
+              base="$(git rev-list --max-parents=0 "$head" | tail -n 1)"
+            fi
+
+            while IFS= read -r file; do
+              app="${file%%/*}"
+              case "$app" in
+                gatekeeper|hydra-db|hydra|kratos|kratos-auth|mailslurper|oauth2-proxy|whoami-svc1|whoami-svc2)
+                  apps+=("$app")
+                  ;;
+              esac
+            done < <(git diff --name-only "$base" "$head")
+          fi
 
           if (( ${#apps[@]} == 0 )); then
             echo 'apps=[]' >> "$GITHUB_OUTPUT"
@@ -65,6 +92,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - if: ${{ matrix.app == 'oauth2-proxy' }}
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONF }}
+        with:
+          args: apply -k gatekeeper/overlays/stage
       - uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONF }}
