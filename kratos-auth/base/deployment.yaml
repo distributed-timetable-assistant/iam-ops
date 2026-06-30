@@ -25,7 +25,7 @@ spec:
             - name: PUBLIC_BASE_URL
               value: https://web.login.outi.ir
             - name: KRATOS_PUBLIC_URL
-              value: http://kratos-public:4433
+              value: https://web.login.outi.ir/
             - name: HYDRA_ADMIN_URL
               value: http://hydra-admin:4445
           ports:

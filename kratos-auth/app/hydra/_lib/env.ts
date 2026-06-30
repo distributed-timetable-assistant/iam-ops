@@ -11,7 +11,7 @@ export function getPublicBaseUrl(): string {
 }
 
 export function getKratosPublicUrl(): string {
-    return getRequiredEnv("KRATOS_PUBLIC_URL", "http://127.0.0.1:4433")
+    return getRequiredEnv("KRATOS_PUBLIC_URL", "https://web.login.outi.ir/")
 }
 
 export function getKratosBrowserUrl(): string {
