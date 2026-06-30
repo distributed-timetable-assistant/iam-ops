@@ -61,28 +61,14 @@ export default async function LoginPage(props: OryPageParams) {
         if (session?.identity?.id) {
             redirect(returnTo ?? "/")
         }
-        const browserFlowUrl = new URL(
-            "self-service/login/browser",
-            getKratosBrowserUrl(),
-        )
-        if (returnTo) {
-            browserFlowUrl.searchParams.set("return_to", returnTo)
-        }
-        redirect(browserFlowUrl.toString())
+        redirect("/auth/error?error=login_flow_fetch_failed")
     }
 
     if (!flow) {
         if (session?.identity?.id) {
             redirect(returnTo ?? "/")
         }
-        const browserFlowUrl = new URL(
-            "self-service/login/browser",
-            getKratosBrowserUrl(),
-        )
-        if (returnTo) {
-            browserFlowUrl.searchParams.set("return_to", returnTo)
-        }
-        redirect(browserFlowUrl.toString())
+        redirect("/auth/error?error=login_flow_not_found")
     }
 
     return (

@@ -53,25 +53,11 @@ export default async function RegistrationPage(props: OryPageParams) {
         flow = await getRegistrationFlowInternal(searchParams)
     } catch (err) {
         console.error("[auth/registration] getRegistrationFlowInternal threw:", err)
-        const browserFlowUrl = new URL(
-            "self-service/registration/browser",
-            getKratosBrowserUrl(),
-        )
-        if (returnTo) {
-            browserFlowUrl.searchParams.set("return_to", returnTo)
-        }
-        redirect(browserFlowUrl.toString())
+        redirect("/auth/error?error=registration_flow_fetch_failed")
     }
 
     if (!flow) {
-        const browserFlowUrl = new URL(
-            "self-service/registration/browser",
-            getKratosBrowserUrl(),
-        )
-        if (returnTo) {
-            browserFlowUrl.searchParams.set("return_to", returnTo)
-        }
-        redirect(browserFlowUrl.toString())
+        redirect("/auth/error?error=registration_flow_not_found")
     }
 
     return (
