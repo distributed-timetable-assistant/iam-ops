@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { redirect } from "next/navigation"
+import { headers } from "next/headers"
 import { Login } from "@ory/elements-react/theme"
 import { OryPageParams } from "@ory/nextjs/app"
 
@@ -32,6 +33,7 @@ function getFirstQueryParam(
 
 export default async function LoginPage(props: OryPageParams) {
     const searchParams = await props.searchParams
+    const requestHeaders = await headers()
     const flowId = getFirstQueryParam(searchParams, "flow")
     const returnTo = getFirstQueryParam(searchParams, "return_to")
 
@@ -48,7 +50,10 @@ export default async function LoginPage(props: OryPageParams) {
 
     let flow
     try {
-        flow = await getLoginFlowInternal(searchParams)
+        flow = await getLoginFlowInternal(
+            searchParams,
+            requestHeaders.get("cookie") ?? undefined,
+        )
     } catch (error) {
         console.error("[auth/login] getLoginFlowInternal threw:", error)
         const message =
