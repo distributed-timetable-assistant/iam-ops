@@ -37,7 +37,7 @@ data:
 
     serve:
       public:
-        base_url: https://kratos.outi.ir/
+        base_url: https://web.login.outi.ir/kratos/
         cors:
           enabled: true
           allow_credentials: true

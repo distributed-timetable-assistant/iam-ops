@@ -42,7 +42,7 @@ export default async function LoginPage(props: OryPageParams) {
 
     if (!flowId) {
         const browserFlowUrl = new URL(
-            "/self-service/login/browser",
+            "self-service/login/browser",
             getKratosBrowserUrl(),
         )
 
@@ -62,7 +62,7 @@ export default async function LoginPage(props: OryPageParams) {
             redirect(returnTo ?? "/")
         }
         const browserFlowUrl = new URL(
-            "/self-service/login/browser",
+            "self-service/login/browser",
             getKratosBrowserUrl(),
         )
         if (returnTo) {
@@ -76,7 +76,7 @@ export default async function LoginPage(props: OryPageParams) {
             redirect(returnTo ?? "/")
         }
         const browserFlowUrl = new URL(
-            "/self-service/login/browser",
+            "self-service/login/browser",
             getKratosBrowserUrl(),
         )
         if (returnTo) {

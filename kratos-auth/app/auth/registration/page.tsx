@@ -37,7 +37,7 @@ export default async function RegistrationPage(props: OryPageParams) {
 
     if (!flowId) {
         const browserFlowUrl = new URL(
-            "/self-service/registration/browser",
+            "self-service/registration/browser",
             getKratosBrowserUrl(),
         )
 
@@ -54,7 +54,7 @@ export default async function RegistrationPage(props: OryPageParams) {
     } catch (err) {
         console.error("[auth/registration] getRegistrationFlowInternal threw:", err)
         const browserFlowUrl = new URL(
-            "/self-service/registration/browser",
+            "self-service/registration/browser",
             getKratosBrowserUrl(),
         )
         if (returnTo) {
@@ -65,7 +65,7 @@ export default async function RegistrationPage(props: OryPageParams) {
 
     if (!flow) {
         const browserFlowUrl = new URL(
-            "/self-service/registration/browser",
+            "self-service/registration/browser",
             getKratosBrowserUrl(),
         )
         if (returnTo) {

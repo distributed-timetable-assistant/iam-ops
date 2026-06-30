@@ -15,7 +15,10 @@ export function getKratosPublicUrl(): string {
 }
 
 export function getKratosBrowserUrl(): string {
-    return getRequiredEnv("NEXT_PUBLIC_ORY_SDK_URL", "https://kratos.outi.ir/")
+    return getRequiredEnv(
+        "NEXT_PUBLIC_ORY_SDK_URL",
+        "https://web.login.outi.ir/kratos/",
+    )
 }
 
 export function getHydraAdminUrl(): string {

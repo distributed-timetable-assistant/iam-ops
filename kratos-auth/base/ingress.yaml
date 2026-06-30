@@ -12,6 +12,13 @@ spec:
     - host: web.login.outi.ir
       http:
         paths:
+          - path: /kratos
+            pathType: Prefix
+            backend:
+              service:
+                name: kratos-public
+                port:
+                  name: http
           - path: /
             pathType: Prefix
             backend:
@@ -19,4 +26,3 @@ spec:
                 name: kratos-auth
                 port:
                   name: http
-

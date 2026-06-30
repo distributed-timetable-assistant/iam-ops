@@ -21,7 +21,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: NEXT_PUBLIC_ORY_SDK_URL
-              value: https://kratos.outi.ir/
+              value: https://web.login.outi.ir/kratos/
             - name: PUBLIC_BASE_URL
               value: https://web.login.outi.ir
             - name: KRATOS_PUBLIC_URL
