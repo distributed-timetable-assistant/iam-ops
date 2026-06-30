@@ -51,9 +51,20 @@ export default async function RegistrationPage(props: OryPageParams) {
         flow = await getRegistrationFlowInternal(searchParams)
     } catch (error) {
         console.error("[auth/registration] getRegistrationFlowInternal threw:", error)
+        const message =
+            error instanceof Error
+                ? error.message
+                : typeof error === "string"
+                  ? error
+                  : "Unknown error"
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
-                Registration flow could not be loaded.
+                <div className="font-medium">
+                    Registration flow could not be loaded.
+                </div>
+                <div className="mt-2 break-words text-xs text-red-800">
+                    {message}
+                </div>
             </div>
         )
     }

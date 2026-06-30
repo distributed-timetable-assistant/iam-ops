@@ -51,9 +51,18 @@ export default async function LoginPage(props: OryPageParams) {
         flow = await getLoginFlowInternal(searchParams)
     } catch (error) {
         console.error("[auth/login] getLoginFlowInternal threw:", error)
+        const message =
+            error instanceof Error
+                ? error.message
+                : typeof error === "string"
+                  ? error
+                  : "Unknown error"
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
-                Login flow could not be loaded.
+                <div className="font-medium">Login flow could not be loaded.</div>
+                <div className="mt-2 break-words text-xs text-red-800">
+                    {message}
+                </div>
             </div>
         )
     }
