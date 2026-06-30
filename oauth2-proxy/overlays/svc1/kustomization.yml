@@ -7,7 +7,6 @@ nameSuffix: -svc1
 resources:
   - ../../base
   - certificate.yml
-  - ingress.yml
 
 patches:
   - path: deployment-patch.yml

@@ -16,13 +16,6 @@ spec:
     - host: login.outi.ir
       http:
         paths:
-          - path: /oauth2
-            pathType: Prefix
-            backend:
-              service:
-                name: oauth2-proxy
-                port:
-                  name: http
           - path: /svc1
             pathType: Prefix
             backend:

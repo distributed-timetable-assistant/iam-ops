@@ -5,3 +5,4 @@ namespace: iam
 
 resources:
   - ../../base
+  - ingress.yaml
