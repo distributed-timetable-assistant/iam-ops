@@ -3,12 +3,11 @@
 
 import { redirect } from "next/navigation"
 import { headers } from "next/headers"
-import { Login } from "@ory/elements-react/theme"
 import { OryPageParams } from "@ory/nextjs/app"
 
-import config from "@/ory.config"
 import { getKratosBrowserUrl } from "@/app/hydra/_lib/env"
 import { getLoginFlowInternal } from "@/app/hydra/_lib/flows"
+import LoginClient from "./login-client"
 
 function getFirstQueryParam(
     searchParams: unknown,
@@ -80,13 +79,5 @@ export default async function LoginPage(props: OryPageParams) {
         )
     }
 
-    return (
-        <Login
-            flow={flow as any}
-            config={config}
-            components={{
-                Card: {},
-            }}
-        />
-    )
+    return <LoginClient flow={flow} />
 }

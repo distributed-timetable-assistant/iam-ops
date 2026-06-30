@@ -3,12 +3,11 @@
 
 import { redirect } from "next/navigation"
 import { headers } from "next/headers"
-import { Registration } from "@ory/elements-react/theme"
 import { OryPageParams } from "@ory/nextjs/app"
 
-import config from "@/ory.config"
 import { getKratosBrowserUrl } from "@/app/hydra/_lib/env"
 import { getRegistrationFlowInternal } from "@/app/hydra/_lib/flows"
+import RegistrationClient from "./registration-client"
 
 function getFirstQueryParam(
     searchParams: unknown,
@@ -82,13 +81,5 @@ export default async function RegistrationPage(props: OryPageParams) {
         )
     }
 
-    return (
-        <Registration
-            flow={flow as any}
-            config={config}
-            components={{
-                Card: {},
-            }}
-        />
-    )
+    return <RegistrationClient flow={flow} />
 }
