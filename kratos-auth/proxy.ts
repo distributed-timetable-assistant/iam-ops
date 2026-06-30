@@ -15,7 +15,7 @@ function isPublicAuthRoute(pathname: string): boolean {
     )
 }
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
     if (isPublicAuthRoute(request.nextUrl.pathname)) {
         return NextResponse.next()
     }
