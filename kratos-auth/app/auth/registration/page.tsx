@@ -3,11 +3,10 @@
 
 import { redirect } from "next/navigation"
 import { Registration } from "@ory/elements-react/theme"
-import { OryPageParams } from "@ory/nextjs/app"
+import { getRegistrationFlow, OryPageParams } from "@ory/nextjs/app"
 
 import config from "@/ory.config"
 import { getKratosBrowserUrl } from "@/app/hydra/_lib/env"
-import { getRegistrationFlowInternal } from "@/app/hydra/_lib/flows"
 
 function getFirstQueryParam(
     searchParams: unknown,
@@ -40,24 +39,30 @@ export default async function RegistrationPage(props: OryPageParams) {
             "self-service/registration/browser",
             getKratosBrowserUrl(),
         )
-
         if (returnTo) {
             browserFlowUrl.searchParams.set("return_to", returnTo)
         }
-
         redirect(browserFlowUrl.toString())
     }
 
     let flow
     try {
-        flow = await getRegistrationFlowInternal(searchParams)
-    } catch (err) {
-        console.error("[auth/registration] getRegistrationFlowInternal threw:", err)
-        redirect("/auth/error?error=registration_flow_fetch_failed")
+        flow = await getRegistrationFlow(config, searchParams)
+    } catch (error) {
+        console.error("[auth/registration] getRegistrationFlow threw:", error)
+        return (
+            <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
+                Registration flow could not be loaded.
+            </div>
+        )
     }
 
     if (!flow) {
-        redirect("/auth/error?error=registration_flow_not_found")
+        return (
+            <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
+                Registration flow is missing or expired.
+            </div>
+        )
     }
 
     return (

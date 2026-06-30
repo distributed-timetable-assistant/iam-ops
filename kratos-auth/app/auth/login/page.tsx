@@ -3,11 +3,10 @@
 
 import { redirect } from "next/navigation"
 import { Login } from "@ory/elements-react/theme"
-import { getServerSession, OryPageParams } from "@ory/nextjs/app"
+import { getLoginFlow, OryPageParams } from "@ory/nextjs/app"
 
 import config from "@/ory.config"
 import { getKratosBrowserUrl } from "@/app/hydra/_lib/env"
-import { getLoginFlowInternal } from "@/app/hydra/_lib/flows"
 
 function getFirstQueryParam(
     searchParams: unknown,
@@ -34,41 +33,36 @@ export default async function LoginPage(props: OryPageParams) {
     const searchParams = await props.searchParams
     const flowId = getFirstQueryParam(searchParams, "flow")
     const returnTo = getFirstQueryParam(searchParams, "return_to")
-    const session = await getServerSession().catch(() => null)
-
-    if (session?.identity?.id && !flowId) {
-        redirect(returnTo ?? "/")
-    }
 
     if (!flowId) {
         const browserFlowUrl = new URL(
             "self-service/login/browser",
             getKratosBrowserUrl(),
         )
-
         if (returnTo) {
             browserFlowUrl.searchParams.set("return_to", returnTo)
         }
-
         redirect(browserFlowUrl.toString())
     }
 
     let flow
     try {
-        flow = await getLoginFlowInternal(searchParams)
-    } catch (err) {
-        console.error("[auth/login] getLoginFlowInternal threw:", err)
-        if (session?.identity?.id) {
-            redirect(returnTo ?? "/")
-        }
-        redirect("/auth/error?error=login_flow_fetch_failed")
+        flow = await getLoginFlow(config, searchParams)
+    } catch (error) {
+        console.error("[auth/login] getLoginFlow threw:", error)
+        return (
+            <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
+                Login flow could not be loaded.
+            </div>
+        )
     }
 
     if (!flow) {
-        if (session?.identity?.id) {
-            redirect(returnTo ?? "/")
-        }
-        redirect("/auth/error?error=login_flow_not_found")
+        return (
+            <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
+                Login flow is missing or expired.
+            </div>
+        )
     }
 
     return (
