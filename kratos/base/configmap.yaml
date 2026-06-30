@@ -55,6 +55,10 @@ data:
       admin:
         base_url: http://kratos-admin:4434/
 
+    session:
+      cookie:
+        domain: .outi.ir
+
     selfservice:
       default_browser_return_url: https://web.login.outi.ir/
       allowed_return_urls:
