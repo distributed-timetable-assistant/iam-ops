@@ -5,4 +5,5 @@ namespace: iam
 
 resources:
   - ../../base
+  - gatekeeper-ingress.yaml
   - ingress.yaml
