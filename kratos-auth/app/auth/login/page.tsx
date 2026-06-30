@@ -3,10 +3,11 @@
 
 import { redirect } from "next/navigation"
 import { Login } from "@ory/elements-react/theme"
-import { getLoginFlow, OryPageParams } from "@ory/nextjs/app"
+import { OryPageParams } from "@ory/nextjs/app"
 
 import config from "@/ory.config"
 import { getKratosBrowserUrl } from "@/app/hydra/_lib/env"
+import { getLoginFlowInternal } from "@/app/hydra/_lib/flows"
 
 function getFirstQueryParam(
     searchParams: unknown,
@@ -47,9 +48,9 @@ export default async function LoginPage(props: OryPageParams) {
 
     let flow
     try {
-        flow = await getLoginFlow(config, searchParams)
+        flow = await getLoginFlowInternal(searchParams)
     } catch (error) {
-        console.error("[auth/login] getLoginFlow threw:", error)
+        console.error("[auth/login] getLoginFlowInternal threw:", error)
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
                 Login flow could not be loaded.

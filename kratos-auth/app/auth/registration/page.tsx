@@ -3,10 +3,11 @@
 
 import { redirect } from "next/navigation"
 import { Registration } from "@ory/elements-react/theme"
-import { getRegistrationFlow, OryPageParams } from "@ory/nextjs/app"
+import { OryPageParams } from "@ory/nextjs/app"
 
 import config from "@/ory.config"
 import { getKratosBrowserUrl } from "@/app/hydra/_lib/env"
+import { getRegistrationFlowInternal } from "@/app/hydra/_lib/flows"
 
 function getFirstQueryParam(
     searchParams: unknown,
@@ -47,9 +48,9 @@ export default async function RegistrationPage(props: OryPageParams) {
 
     let flow
     try {
-        flow = await getRegistrationFlow(config, searchParams)
+        flow = await getRegistrationFlowInternal(searchParams)
     } catch (error) {
-        console.error("[auth/registration] getRegistrationFlow threw:", error)
+        console.error("[auth/registration] getRegistrationFlowInternal threw:", error)
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
                 Registration flow could not be loaded.
