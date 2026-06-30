@@ -11,7 +11,7 @@ import RecoveryClient from "./recovery-client"
 export default async function RecoveryPage(props: OryPageParams) {
     let flow
     try {
-        flow = await getRecoveryFlowInternal(props.searchParams)
+        flow = await getRecoveryFlowInternal(await props.searchParams)
     } catch (err) {
         console.error("[auth/recovery] getRecoveryFlowInternal threw:", err)
         redirect("/auth/error?error=recovery_flow_fetch_failed")

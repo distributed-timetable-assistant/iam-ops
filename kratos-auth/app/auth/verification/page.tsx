@@ -11,7 +11,7 @@ import VerificationClient from "./verification-client"
 export default async function VerificationPage(props: OryPageParams) {
     let flow
     try {
-        flow = await getVerificationFlowInternal(props.searchParams)
+        flow = await getVerificationFlowInternal(await props.searchParams)
     } catch (err) {
         console.error("[auth/verification] getVerificationFlowInternal threw:", err)
         redirect("/auth/error?error=verification_flow_fetch_failed")

@@ -11,7 +11,7 @@ import { getSettingsFlowInternal } from "@/app/hydra/_lib/flows"
 export default async function SettingsPage(props: OryPageParams) {
     let flow
     try {
-        flow = await getSettingsFlowInternal(props.searchParams)
+        flow = await getSettingsFlowInternal(await props.searchParams)
     } catch (err) {
         console.error("[auth/settings] getSettingsFlowInternal threw:", err)
         redirect("/auth/error?error=settings_flow_fetch_failed")

@@ -11,7 +11,7 @@ import { getRegistrationFlowInternal } from "@/app/hydra/_lib/flows"
 export default async function RegistrationPage(props: OryPageParams) {
     let flow
     try {
-        flow = await getRegistrationFlowInternal(props.searchParams)
+        flow = await getRegistrationFlowInternal(await props.searchParams)
     } catch (err) {
         console.error("[auth/registration] getRegistrationFlowInternal threw:", err)
         redirect("/auth/error?error=registration_flow_fetch_failed")

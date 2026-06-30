@@ -11,7 +11,7 @@ import { getLoginFlowInternal } from "@/app/hydra/_lib/flows"
 export default async function LoginPage(props: OryPageParams) {
     let flow
     try {
-        flow = await getLoginFlowInternal(props.searchParams)
+        flow = await getLoginFlowInternal(await props.searchParams)
     } catch (err) {
         console.error("[auth/login] getLoginFlowInternal threw:", err)
         redirect("/auth/error?error=login_flow_fetch_failed")
