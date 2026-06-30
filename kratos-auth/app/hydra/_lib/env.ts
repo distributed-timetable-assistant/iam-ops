@@ -14,7 +14,10 @@ export function getKratosPublicUrl(): string {
     return getRequiredEnv("KRATOS_PUBLIC_URL", "http://127.0.0.1:4433")
 }
 
+export function getKratosBrowserUrl(): string {
+    return getRequiredEnv("NEXT_PUBLIC_ORY_SDK_URL", "https://kratos.outi.ir/")
+}
+
 export function getHydraAdminUrl(): string {
     return getRequiredEnv("HYDRA_ADMIN_URL", "http://127.0.0.1:4445")
 }
-
