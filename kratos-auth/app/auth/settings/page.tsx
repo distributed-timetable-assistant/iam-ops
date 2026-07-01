@@ -1,53 +1,31 @@
 // Copyright © 2024 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
-import { redirect } from "next/navigation"
-import { headers } from "next/headers"
-import { OryPageParams } from "@ory/nextjs/app"
+import { Settings } from "@ory/elements-react/theme"
+import { SessionProvider } from "@ory/elements-react/client"
+import { getSettingsFlow, OryPageParams } from "@ory/nextjs/app"
+import "@ory/elements-react/theme/styles.css"
 
-import OrySettingsFlow from "@/components/ory-settings-flow"
-import {
-    getFirstQueryParam,
-    isCsrfError,
-    redirectToBrowserFlow,
-} from "@/app/hydra/_lib/browser-flow"
-import { getSettingsFlowInternal } from "@/app/hydra/_lib/flows"
+import config from "@/ory.config"
 
 export default async function SettingsPage(props: OryPageParams) {
-    const searchParams = await props.searchParams
-    const requestHeaders = await headers()
-    const flowId = getFirstQueryParam(searchParams, "flow")
-    const returnTo = getFirstQueryParam(searchParams, "return_to")
+  const flow = await getSettingsFlow(config, props.searchParams)
 
-    if (!flowId) {
-        redirectToBrowserFlow("self-service/settings/browser", returnTo)
-    }
+  if (!flow) {
+    return null
+  }
 
-    let flow
-    try {
-        flow = await getSettingsFlowInternal(
-            searchParams,
-            requestHeaders.get("cookie") ?? undefined,
-        )
-    } catch (error) {
-        console.error("[auth/settings] getSettingsFlowInternal threw:", error)
-        const message =
-            error instanceof Error
-                ? error.message
-                : typeof error === "string"
-                  ? error
-                  : "Unknown error"
-
-        if (isCsrfError(message)) {
-            redirectToBrowserFlow("self-service/settings/browser", returnTo)
-        }
-
-        redirect("/auth/error?error=settings_flow_fetch_failed")
-    }
-
-    if (!flow) {
-        redirect("/auth/error?error=settings_flow_not_found")
-    }
-
-    return <OrySettingsFlow flow={flow} />
+  return (
+    <div className="flex flex-col gap-8 items-center mb-8">
+      <SessionProvider>
+        <Settings
+          flow={flow}
+          config={config}
+          components={{
+            Card: {},
+          }}
+        />
+      </SessionProvider>
+    </div>
+  )
 }

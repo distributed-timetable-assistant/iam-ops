@@ -1,56 +1,25 @@
 // Copyright © 2024 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
-import { redirect } from "next/navigation"
-import { headers } from "next/headers"
-import { OryPageParams } from "@ory/nextjs/app"
+import { Verification } from "@ory/elements-react/theme"
+import { getVerificationFlow, OryPageParams } from "@ory/nextjs/app"
 
-import OryVerificationFlow from "@/components/ory-verification-flow"
-import {
-    getFirstQueryParam,
-    isCsrfError,
-    redirectToBrowserFlow,
-} from "@/app/hydra/_lib/browser-flow"
-import { getVerificationFlowInternal } from "@/app/hydra/_lib/flows"
+import config from "@/ory.config"
 
 export default async function VerificationPage(props: OryPageParams) {
-    const searchParams = await props.searchParams
-    const requestHeaders = await headers()
-    const flowId = getFirstQueryParam(searchParams, "flow")
-    const returnTo = getFirstQueryParam(searchParams, "return_to")
+  const flow = await getVerificationFlow(config, props.searchParams)
 
-    if (!flowId) {
-        redirectToBrowserFlow("self-service/verification/browser", returnTo)
-    }
+  if (!flow) {
+    return null
+  }
 
-    let flow
-    try {
-        flow = await getVerificationFlowInternal(
-            searchParams,
-            requestHeaders.get("cookie") ?? undefined,
-        )
-    } catch (error) {
-        console.error(
-            "[auth/verification] getVerificationFlowInternal threw:",
-            error,
-        )
-        const message =
-            error instanceof Error
-                ? error.message
-                : typeof error === "string"
-                  ? error
-                  : "Unknown error"
-
-        if (isCsrfError(message)) {
-            redirectToBrowserFlow("self-service/verification/browser", returnTo)
-        }
-
-        redirect("/auth/error?error=verification_flow_fetch_failed")
-    }
-
-    if (!flow) {
-        redirect("/auth/error?error=verification_flow_not_found")
-    }
-
-    return <OryVerificationFlow flow={flow} />
+  return (
+    <Verification
+      flow={flow}
+      config={config}
+      components={{
+        Card: {},
+      }}
+    />
+  )
 }
