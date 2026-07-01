@@ -23,10 +23,25 @@ function getPublicBaseUrl(): string {
     )
 }
 
-function hasCsrfCookie(request: NextRequest): boolean {
-    return request.cookies
-        .getAll()
-        .some((cookie) => cookie.name.startsWith("csrf_token_"))
+function isBrowserDocumentRequest(request: NextRequest): boolean {
+    if (request.headers.get("RSC") === "1") {
+        return false
+    }
+    if (request.headers.get("Next-Router-Prefetch") === "1") {
+        return false
+    }
+
+    const accept = request.headers.get("accept") ?? ""
+    if (accept.includes("text/x-component")) {
+        return false
+    }
+
+    const fetchDest = request.headers.get("sec-fetch-dest")
+    if (fetchDest && fetchDest !== "document" && fetchDest !== "iframe") {
+        return false
+    }
+
+    return accept.includes("text/html") || accept === "*/*" || accept === ""
 }
 
 function redirectToBrowserFlow(
@@ -42,13 +57,16 @@ function redirectToBrowserFlow(
 }
 
 function maybeRedirectToBrowserFlow(request: NextRequest): NextResponse | null {
+    if (!isBrowserDocumentRequest(request)) {
+        return null
+    }
+
     const browserPath = AUTH_BROWSER_PATHS[request.nextUrl.pathname]
     if (!browserPath) {
         return null
     }
 
-    const hasFlow = request.nextUrl.searchParams.has("flow")
-    if (!hasFlow || !hasCsrfCookie(request)) {
+    if (!request.nextUrl.searchParams.has("flow")) {
         return redirectToBrowserFlow(request, browserPath)
     }
 

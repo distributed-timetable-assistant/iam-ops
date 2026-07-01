@@ -5,30 +5,13 @@ import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
 
-import { getKratosBrowserUrl } from "@/app/hydra/_lib/env"
+import {
+    getFirstQueryParam,
+    isCsrfError,
+    redirectToBrowserFlow,
+} from "@/app/hydra/_lib/browser-flow"
 import { getRegistrationFlowInternal } from "@/app/hydra/_lib/flows"
 import RegistrationClient from "./registration-client"
-
-function getFirstQueryParam(
-    searchParams: unknown,
-    key: string,
-): string | undefined {
-    if (!searchParams) return undefined
-
-    if (searchParams instanceof URLSearchParams) {
-        return searchParams.get(key) ?? undefined
-    }
-
-    if (typeof searchParams !== "object") return undefined
-
-    const value = (searchParams as Record<string, unknown>)[key]
-    if (Array.isArray(value)) {
-        const first = value[0]
-        return typeof first === "string" ? first : undefined
-    }
-
-    return typeof value === "string" ? value : undefined
-}
 
 export default async function RegistrationPage(props: OryPageParams) {
     const searchParams = await props.searchParams
@@ -37,14 +20,7 @@ export default async function RegistrationPage(props: OryPageParams) {
     const returnTo = getFirstQueryParam(searchParams, "return_to")
 
     if (!flowId) {
-        const browserFlowUrl = new URL(
-            "self-service/registration/browser",
-            getKratosBrowserUrl(),
-        )
-        if (returnTo) {
-            browserFlowUrl.searchParams.set("return_to", returnTo)
-        }
-        redirect(browserFlowUrl.toString())
+        redirectToBrowserFlow("self-service/registration/browser", returnTo)
     }
 
     let flow
@@ -54,31 +30,26 @@ export default async function RegistrationPage(props: OryPageParams) {
             requestHeaders.get("cookie") ?? undefined,
         )
     } catch (error) {
-        console.error("[auth/registration] getRegistrationFlowInternal threw:", error)
+        console.error(
+            "[auth/registration] getRegistrationFlowInternal threw:",
+            error,
+        )
         const message =
             error instanceof Error
                 ? error.message
                 : typeof error === "string"
                   ? error
                   : "Unknown error"
-        return (
-            <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
-                <div className="font-medium">
-                    Registration flow could not be loaded.
-                </div>
-                <div className="mt-2 break-words text-xs text-red-800">
-                    {message}
-                </div>
-            </div>
-        )
+
+        if (isCsrfError(message)) {
+            redirectToBrowserFlow("self-service/registration/browser", returnTo)
+        }
+
+        redirect(`/auth/error?error=registration_flow_fetch_failed`)
     }
 
     if (!flow) {
-        return (
-            <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
-                Registration flow is missing or expired.
-            </div>
-        )
+        redirect("/auth/error?error=registration_flow_not_found")
     }
 
     return <RegistrationClient flow={flow} />

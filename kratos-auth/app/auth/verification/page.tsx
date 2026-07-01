@@ -2,18 +2,49 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { redirect } from "next/navigation"
+import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
 
-import config from "@/ory.config"
+import {
+    getFirstQueryParam,
+    isCsrfError,
+    redirectToBrowserFlow,
+} from "@/app/hydra/_lib/browser-flow"
 import { getVerificationFlowInternal } from "@/app/hydra/_lib/flows"
 import VerificationClient from "./verification-client"
 
 export default async function VerificationPage(props: OryPageParams) {
+    const searchParams = await props.searchParams
+    const requestHeaders = await headers()
+    const flowId = getFirstQueryParam(searchParams, "flow")
+    const returnTo = getFirstQueryParam(searchParams, "return_to")
+
+    if (!flowId) {
+        redirectToBrowserFlow("self-service/verification/browser", returnTo)
+    }
+
     let flow
     try {
-        flow = await getVerificationFlowInternal(await props.searchParams)
-    } catch (err) {
-        console.error("[auth/verification] getVerificationFlowInternal threw:", err)
+        flow = await getVerificationFlowInternal(
+            searchParams,
+            requestHeaders.get("cookie") ?? undefined,
+        )
+    } catch (error) {
+        console.error(
+            "[auth/verification] getVerificationFlowInternal threw:",
+            error,
+        )
+        const message =
+            error instanceof Error
+                ? error.message
+                : typeof error === "string"
+                  ? error
+                  : "Unknown error"
+
+        if (isCsrfError(message)) {
+            redirectToBrowserFlow("self-service/verification/browser", returnTo)
+        }
+
         redirect("/auth/error?error=verification_flow_fetch_failed")
     }
 
@@ -21,6 +52,5 @@ export default async function VerificationPage(props: OryPageParams) {
         redirect("/auth/error?error=verification_flow_not_found")
     }
 
-    return <VerificationClient flow={flow as any} />
+    return <VerificationClient flow={flow as never} />
 }
-

@@ -1,34 +1,16 @@
 // Copyright © 2024 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
-import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
 
-import { getKratosBrowserUrl } from "@/app/hydra/_lib/env"
+import {
+    getFirstQueryParam,
+    isCsrfError,
+    redirectToBrowserFlow,
+} from "@/app/hydra/_lib/browser-flow"
 import { getLoginFlowInternal } from "@/app/hydra/_lib/flows"
 import LoginClient from "./login-client"
-
-function getFirstQueryParam(
-    searchParams: unknown,
-    key: string,
-): string | undefined {
-    if (!searchParams) return undefined
-
-    if (searchParams instanceof URLSearchParams) {
-        return searchParams.get(key) ?? undefined
-    }
-
-    if (typeof searchParams !== "object") return undefined
-
-    const value = (searchParams as Record<string, unknown>)[key]
-    if (Array.isArray(value)) {
-        const first = value[0]
-        return typeof first === "string" ? first : undefined
-    }
-
-    return typeof value === "string" ? value : undefined
-}
 
 export default async function LoginPage(props: OryPageParams) {
     const searchParams = await props.searchParams
@@ -37,14 +19,7 @@ export default async function LoginPage(props: OryPageParams) {
     const returnTo = getFirstQueryParam(searchParams, "return_to")
 
     if (!flowId) {
-        const browserFlowUrl = new URL(
-            "self-service/login/browser",
-            getKratosBrowserUrl(),
-        )
-        if (returnTo) {
-            browserFlowUrl.searchParams.set("return_to", returnTo)
-        }
-        redirect(browserFlowUrl.toString())
+        redirectToBrowserFlow("self-service/login/browser", returnTo)
     }
 
     let flow
@@ -62,18 +37,8 @@ export default async function LoginPage(props: OryPageParams) {
                   ? error
                   : "Unknown error"
 
-        if (
-            message.includes("security_csrf_violation") ||
-            message.includes("Cookie Header is empty")
-        ) {
-            const browserFlowUrl = new URL(
-                "self-service/login/browser",
-                getKratosBrowserUrl(),
-            )
-            if (returnTo) {
-                browserFlowUrl.searchParams.set("return_to", returnTo)
-            }
-            redirect(browserFlowUrl.toString())
+        if (isCsrfError(message)) {
+            redirectToBrowserFlow("self-service/login/browser", returnTo)
         }
 
         return (
