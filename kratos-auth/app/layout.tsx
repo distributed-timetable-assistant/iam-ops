@@ -3,7 +3,7 @@
 
 import "@ory/elements-react/theme/styles.css"
 import "./globals.css"
-import React, { Suspense, ReactNode } from "react"
+import React, { ReactNode } from "react"
 import { Inter } from "next/font/google"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -18,7 +18,7 @@ export default function RootLayout({
             <body
                 className={`${inter.className} min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased`}
             >
-                <Suspense>{children}</Suspense>
+                {children}
             </body>
         </html>
     )

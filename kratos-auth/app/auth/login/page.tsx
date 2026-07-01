@@ -61,6 +61,21 @@ export default async function LoginPage(props: OryPageParams) {
                 : typeof error === "string"
                   ? error
                   : "Unknown error"
+
+        if (
+            message.includes("security_csrf_violation") ||
+            message.includes("Cookie Header is empty")
+        ) {
+            const browserFlowUrl = new URL(
+                "self-service/login/browser",
+                getKratosBrowserUrl(),
+            )
+            if (returnTo) {
+                browserFlowUrl.searchParams.set("return_to", returnTo)
+            }
+            redirect(browserFlowUrl.toString())
+        }
+
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
                 <div className="font-medium">Login flow could not be loaded.</div>
