@@ -3,10 +3,9 @@
 
 import { redirect } from "next/navigation"
 import { headers } from "next/headers"
-import { Settings } from "@ory/elements-react/theme"
 import { OryPageParams } from "@ory/nextjs/app"
 
-import config from "@/ory.config"
+import OrySettingsFlow from "@/components/ory-settings-flow"
 import {
     getFirstQueryParam,
     isCsrfError,
@@ -50,13 +49,5 @@ export default async function SettingsPage(props: OryPageParams) {
         redirect("/auth/error?error=settings_flow_not_found")
     }
 
-    return (
-        <Settings
-            flow={flow as never}
-            config={config}
-            components={{
-                Card: {},
-            }}
-        />
-    )
+    return <OrySettingsFlow flow={flow} />
 }

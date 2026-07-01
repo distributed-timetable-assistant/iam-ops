@@ -4,13 +4,13 @@
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
 
+import OryLoginFlow from "@/components/ory-login-flow"
 import {
     getFirstQueryParam,
     isCsrfError,
     redirectToBrowserFlow,
 } from "@/app/hydra/_lib/browser-flow"
 import { getLoginFlowInternal } from "@/app/hydra/_lib/flows"
-import LoginClient from "./login-client"
 
 export default async function LoginPage(props: OryPageParams) {
     const searchParams = await props.searchParams
@@ -59,5 +59,5 @@ export default async function LoginPage(props: OryPageParams) {
         )
     }
 
-    return <LoginClient flow={flow} />
+    return <OryLoginFlow flow={flow} />
 }

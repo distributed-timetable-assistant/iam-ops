@@ -5,13 +5,13 @@ import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
 
+import OryVerificationFlow from "@/components/ory-verification-flow"
 import {
     getFirstQueryParam,
     isCsrfError,
     redirectToBrowserFlow,
 } from "@/app/hydra/_lib/browser-flow"
 import { getVerificationFlowInternal } from "@/app/hydra/_lib/flows"
-import VerificationClient from "./verification-client"
 
 export default async function VerificationPage(props: OryPageParams) {
     const searchParams = await props.searchParams
@@ -52,5 +52,5 @@ export default async function VerificationPage(props: OryPageParams) {
         redirect("/auth/error?error=verification_flow_not_found")
     }
 
-    return <VerificationClient flow={flow as never} />
+    return <OryVerificationFlow flow={flow} />
 }

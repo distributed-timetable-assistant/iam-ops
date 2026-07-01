@@ -5,13 +5,13 @@ import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
 
+import OryRegistrationFlow from "@/components/ory-registration-flow"
 import {
     getFirstQueryParam,
     isCsrfError,
     redirectToBrowserFlow,
 } from "@/app/hydra/_lib/browser-flow"
 import { getRegistrationFlowInternal } from "@/app/hydra/_lib/flows"
-import RegistrationClient from "./registration-client"
 
 export default async function RegistrationPage(props: OryPageParams) {
     const searchParams = await props.searchParams
@@ -45,12 +45,12 @@ export default async function RegistrationPage(props: OryPageParams) {
             redirectToBrowserFlow("self-service/registration/browser", returnTo)
         }
 
-        redirect(`/auth/error?error=registration_flow_fetch_failed`)
+        redirect("/auth/error?error=registration_flow_fetch_failed")
     }
 
     if (!flow) {
         redirect("/auth/error?error=registration_flow_not_found")
     }
 
-    return <RegistrationClient flow={flow} />
+    return <OryRegistrationFlow flow={flow} />
 }

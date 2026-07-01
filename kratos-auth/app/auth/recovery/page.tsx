@@ -5,13 +5,13 @@ import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
 
+import OryRecoveryFlow from "@/components/ory-recovery-flow"
 import {
     getFirstQueryParam,
     isCsrfError,
     redirectToBrowserFlow,
 } from "@/app/hydra/_lib/browser-flow"
 import { getRecoveryFlowInternal } from "@/app/hydra/_lib/flows"
-import RecoveryClient from "./recovery-client"
 
 export default async function RecoveryPage(props: OryPageParams) {
     const searchParams = await props.searchParams
@@ -49,5 +49,5 @@ export default async function RecoveryPage(props: OryPageParams) {
         redirect("/auth/error?error=recovery_flow_not_found")
     }
 
-    return <RecoveryClient flow={flow as never} />
+    return <OryRecoveryFlow flow={flow} />
 }

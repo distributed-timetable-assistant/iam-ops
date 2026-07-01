@@ -40,3 +40,28 @@ export function isCsrfError(message: string): boolean {
         message.includes("Cookie Header is empty")
     )
 }
+
+export function coerceOryDates<T>(value: T): T {
+    if (!value) return value
+
+    if (Array.isArray(value)) {
+        return value.map(coerceOryDates) as unknown as T
+    }
+
+    if (typeof value !== "object") return value
+
+    const input = value as unknown as Record<string, unknown>
+    const output: Record<string, unknown> = {}
+
+    for (const [key, raw] of Object.entries(input)) {
+        if (typeof raw === "string" && key.endsWith("_at")) {
+            const date = new Date(raw)
+            output[key] = Number.isNaN(date.getTime()) ? raw : date
+            continue
+        }
+
+        output[key] = coerceOryDates(raw)
+    }
+
+    return output as unknown as T
+}
