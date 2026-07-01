@@ -1,12 +1,11 @@
 // Copyright © 2024 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
-import { Verification } from "@ory/elements-react/theme"
-import { type VerificationFlow } from "@ory/client-fetch"
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
+import { type VerificationFlow } from "@ory/client-fetch"
 
-import config from "@/ory.config"
+import OryVerificationFlow from "@/components/ory-verification-flow"
 import { getKratosPublicUrl } from "@/app/hydra/_lib/env"
 
 function extractParam(
@@ -19,7 +18,7 @@ function extractParam(
     return typeof val === "string" ? val : undefined
 }
 
-async function fetchVerificationFlow(
+async function fetchFlow(
     flowId: string,
     cookieHeader?: string,
 ): Promise<VerificationFlow | null> {
@@ -51,14 +50,14 @@ export default async function VerificationPage(props: OryPageParams) {
         return null
     }
 
-    let flow
+    let flow: VerificationFlow | null = null
     try {
-        flow = await fetchVerificationFlow(
+        flow = await fetchFlow(
             flowId,
             requestHeaders.get("cookie") ?? undefined,
         )
     } catch (error) {
-        console.error("[auth/verification] fetchVerificationFlow failed:", error)
+        console.error("[auth/verification] fetchFlow failed:", error)
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
                 <div className="font-medium">Verification flow could not be loaded.</div>
@@ -77,13 +76,5 @@ export default async function VerificationPage(props: OryPageParams) {
         )
     }
 
-    return (
-        <Verification
-            flow={flow}
-            config={config}
-            components={{
-                Card: {},
-            }}
-        />
-    )
+    return <OryVerificationFlow flow={flow} />
 }

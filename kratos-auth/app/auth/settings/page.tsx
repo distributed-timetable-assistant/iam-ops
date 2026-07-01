@@ -1,14 +1,12 @@
 // Copyright © 2024 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
-import { Settings } from "@ory/elements-react/theme"
-import { type SettingsFlow } from "@ory/client-fetch"
-import { SessionProvider } from "@ory/elements-react/client"
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
+import { type SettingsFlow } from "@ory/client-fetch"
 import "@ory/elements-react/theme/styles.css"
 
-import config from "@/ory.config"
+import OrySettingsFlow from "@/components/ory-settings-flow"
 import { getKratosPublicUrl } from "@/app/hydra/_lib/env"
 
 function extractParam(
@@ -21,7 +19,7 @@ function extractParam(
     return typeof val === "string" ? val : undefined
 }
 
-async function fetchSettingsFlow(
+async function fetchFlow(
     flowId: string,
     cookieHeader?: string,
 ): Promise<SettingsFlow | null> {
@@ -53,14 +51,14 @@ export default async function SettingsPage(props: OryPageParams) {
         return null
     }
 
-    let flow
+    let flow: SettingsFlow | null = null
     try {
-        flow = await fetchSettingsFlow(
+        flow = await fetchFlow(
             flowId,
             requestHeaders.get("cookie") ?? undefined,
         )
     } catch (error) {
-        console.error("[auth/settings] fetchSettingsFlow failed:", error)
+        console.error("[auth/settings] fetchFlow failed:", error)
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
                 <div className="font-medium">Settings flow could not be loaded.</div>
@@ -79,17 +77,5 @@ export default async function SettingsPage(props: OryPageParams) {
         )
     }
 
-    return (
-        <div className="flex flex-col gap-8 items-center mb-8">
-            <SessionProvider>
-                <Settings
-                    flow={flow}
-                    config={config}
-                    components={{
-                        Card: {},
-                    }}
-                />
-            </SessionProvider>
-        </div>
-    )
+    return <OrySettingsFlow flow={flow} />
 }

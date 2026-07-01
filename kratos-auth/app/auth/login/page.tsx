@@ -1,13 +1,12 @@
 // Copyright © 2024 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
-import { Login } from "@ory/elements-react/theme"
-import { type LoginFlow } from "@ory/client-fetch"
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
 
-import config from "@/ory.config"
+import OryLoginFlow from "@/components/ory-login-flow"
 import { getKratosPublicUrl } from "@/app/hydra/_lib/env"
+import { type LoginFlow } from "@ory/client-fetch"
 
 function extractParam(
     sp: Record<string, string | string[] | undefined> | undefined,
@@ -19,7 +18,7 @@ function extractParam(
     return typeof val === "string" ? val : undefined
 }
 
-async function fetchLoginFlow(
+async function fetchFlow(
     flowId: string,
     cookieHeader?: string,
 ): Promise<LoginFlow | null> {
@@ -51,14 +50,14 @@ export default async function LoginPage(props: OryPageParams) {
         return null
     }
 
-    let flow
+    let flow: LoginFlow | null = null
     try {
-        flow = await fetchLoginFlow(
+        flow = await fetchFlow(
             flowId,
             requestHeaders.get("cookie") ?? undefined,
         )
     } catch (error) {
-        console.error("[auth/login] fetchLoginFlow failed:", error)
+        console.error("[auth/login] fetchFlow failed:", error)
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
                 <div className="font-medium">Login flow could not be loaded.</div>
@@ -77,13 +76,5 @@ export default async function LoginPage(props: OryPageParams) {
         )
     }
 
-    return (
-        <Login
-            flow={flow}
-            config={config}
-            components={{
-                Card: {},
-            }}
-        />
-    )
+    return <OryLoginFlow flow={flow} />
 }

@@ -1,25 +1,22 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import { type VerificationFlow } from "@ory/client-fetch"
 
 import config from "@/ory.config"
 import { AuthFlowLoading } from "@/components/auth-flow-shell"
-
-import { coerceOryDates } from "@/app/hydra/_lib/browser-flow"
 
 const Verification = dynamic(() => import("@/components/ory-verification"), {
     ssr: false,
     loading: () => <AuthFlowLoading label="verification" />,
 })
 
-export default function OryVerificationFlow({ flow }: { flow: unknown }) {
+export default function OryVerificationFlow({ flow }: { flow: VerificationFlow }) {
     return (
         <Verification
-            flow={coerceOryDates(flow) as never}
+            flow={flow}
             config={config}
-            components={{
-                Card: {},
-            }}
+            components={{ Card: {} }}
         />
     )
 }

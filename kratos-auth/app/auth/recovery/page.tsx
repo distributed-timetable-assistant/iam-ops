@@ -1,12 +1,11 @@
 // Copyright © 2024 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
-import { Recovery } from "@ory/elements-react/theme"
-import { type RecoveryFlow } from "@ory/client-fetch"
 import { headers } from "next/headers"
 import { OryPageParams } from "@ory/nextjs/app"
+import { type RecoveryFlow } from "@ory/client-fetch"
 
-import config from "@/ory.config"
+import OryRecoveryFlow from "@/components/ory-recovery-flow"
 import { getKratosPublicUrl } from "@/app/hydra/_lib/env"
 
 function extractParam(
@@ -19,7 +18,7 @@ function extractParam(
     return typeof val === "string" ? val : undefined
 }
 
-async function fetchRecoveryFlow(
+async function fetchFlow(
     flowId: string,
     cookieHeader?: string,
 ): Promise<RecoveryFlow | null> {
@@ -51,14 +50,14 @@ export default async function RecoveryPage(props: OryPageParams) {
         return null
     }
 
-    let flow
+    let flow: RecoveryFlow | null = null
     try {
-        flow = await fetchRecoveryFlow(
+        flow = await fetchFlow(
             flowId,
             requestHeaders.get("cookie") ?? undefined,
         )
     } catch (error) {
-        console.error("[auth/recovery] fetchRecoveryFlow failed:", error)
+        console.error("[auth/recovery] fetchFlow failed:", error)
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
                 <div className="font-medium">Recovery flow could not be loaded.</div>
@@ -77,13 +76,5 @@ export default async function RecoveryPage(props: OryPageParams) {
         )
     }
 
-    return (
-        <Recovery
-            flow={flow}
-            config={config}
-            components={{
-                Card: {},
-            }}
-        />
-    )
+    return <OryRecoveryFlow flow={flow} />
 }
