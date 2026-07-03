@@ -82,6 +82,8 @@ data:
       methods:
         password:
           enabled: true
+          config:
+            haveibeenpwned_enabled: false
         totp:
           config:
             issuer: Kratos
