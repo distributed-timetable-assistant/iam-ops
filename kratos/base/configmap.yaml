@@ -17,13 +17,20 @@ data:
               "type": "string",
               "format": "email",
               "title": "E-Mail",
-              "minLength": 3
+              "minLength": 3,
+              "ory.sh/kratos": {
+                "credentials": {
+                  "password": {
+                    "identifier": true
+                  }
+                }
+              }
             },
             "name": {
               "type": "object",
               "properties": {
-                "first": { "type": "string" },
-                "last": { "type": "string" }
+                "first": { "type": "string", "title": "First Name" },
+                "last": { "type": "string", "title": "Last Name" }
               }
             }
           },
@@ -37,7 +44,7 @@ data:
 
     serve:
       public:
-        base_url: https://kratos.outi.ir/
+        base_url: https://web.login.outi.ir/
         cors:
           enabled: true
           allow_credentials: true
@@ -55,10 +62,18 @@ data:
       admin:
         base_url: http://kratos-admin:4434/
 
+    session:
+      cookie:
+        domain: .outi.ir
+
     selfservice:
       default_browser_return_url: https://web.login.outi.ir/
       allowed_return_urls:
         - https://web.login.outi.ir
+        - https://web.login.outi.ir/
+        - https://web.login.outi.ir/hydra/login
+        - https://web.login.outi.ir/hydra/consent
+        - https://web.login.outi.ir/hydra/logout
         - https://login.outi.ir
         - https://login.outi.ir/
         - https://login.outi.ir/svc1
@@ -67,6 +82,8 @@ data:
       methods:
         password:
           enabled: true
+          config:
+            haveibeenpwned_enabled: false
         totp:
           config:
             issuer: Kratos
@@ -114,7 +131,6 @@ data:
             password:
               hooks:
                 - hook: session
-                - hook: show_verification_ui
 
     log:
       level: debug

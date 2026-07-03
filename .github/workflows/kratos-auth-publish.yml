@@ -45,5 +45,7 @@ jobs:
           context: ./kratos-auth
           file: ./kratos-auth/Dockerfile
           push: true
+          build-args: |
+            NEXT_PUBLIC_ORY_SDK_URL=https://web.login.outi.ir
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

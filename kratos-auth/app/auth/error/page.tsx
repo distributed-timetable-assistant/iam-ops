@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Error as ErrorComponent, type OryError } from "@ory/elements-react/theme"
+import "@ory/elements-react/theme/styles.css"
 import { getServerSession, OryPageParams } from "@ory/nextjs/app"
 import { headers } from "next/headers"
 
@@ -74,32 +75,7 @@ async function getSelfServiceError(
     }
 
     const data = await res.json().catch(() => null)
-    return coerceOryDates(data) as OryError
-}
-
-function coerceOryDates<T>(value: T): T {
-    if (!value) return value
-
-    if (Array.isArray(value)) {
-        return value.map(coerceOryDates) as unknown as T
-    }
-
-    if (typeof value !== "object") return value
-
-    const input = value as unknown as Record<string, unknown>
-    const output: Record<string, unknown> = {}
-
-    for (const [key, raw] of Object.entries(input)) {
-        if (typeof raw === "string" && key.endsWith("_at")) {
-            const date = new Date(raw)
-            output[key] = Number.isNaN(date.getTime()) ? raw : date
-            continue
-        }
-
-        output[key] = coerceOryDates(raw)
-    }
-
-    return output as unknown as T
+    return data as OryError
 }
 
 export default async function ErrorPage(props: OryPageParams) {
