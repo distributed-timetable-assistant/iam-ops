@@ -75,6 +75,8 @@ data:
       methods:
         password:
           enabled: true
+          config:
+            identifier: email
         totp:
           config:
             issuer: Kratos
