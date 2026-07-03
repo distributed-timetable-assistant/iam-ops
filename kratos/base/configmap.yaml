@@ -22,8 +22,8 @@ data:
             "name": {
               "type": "object",
               "properties": {
-                "first": { "type": "string" },
-                "last": { "type": "string" }
+                "first": { "type": "string", "title": "First Name" },
+                "last": { "type": "string", "title": "Last Name" }
               }
             }
           },
