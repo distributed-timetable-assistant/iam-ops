@@ -27,6 +27,8 @@ spec:
             - --cookie-secure=true
             - --cookie-samesite=lax
             - --cookie-name=_oauth2_proxy_grafana
+            - --cookie-domain=.outi.ir
+            - --whitelist-domain=.outi.ir
             - --set-xauthrequest=true
             - --pass-authorization-header=true
             - --pass-access-token=true
