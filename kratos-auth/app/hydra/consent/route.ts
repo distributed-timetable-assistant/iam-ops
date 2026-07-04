@@ -24,7 +24,8 @@ export async function GET(request: NextRequest) {
 
     const traits = (session.identity.traits ?? {}) as Record<string, unknown>
     const email = typeof traits.email === "string" ? traits.email : undefined
-    const name = typeof traits.name === "object" && traits.name ? traits.name : undefined
+    const rawName = traits.name as Record<string, string> | undefined
+    const name = rawName ? [rawName.first, rawName.last].filter(Boolean).join(" ") : email
 
     const consentRequest = await getHydraConsentRequest(consentChallenge)
     const requestedScopes = consentRequest.requested_scope ?? []
