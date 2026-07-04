@@ -1,11 +1,11 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: oauth2-proxy-svc1
+  name: oauth2-proxy-jaeger
 spec:
   dnsNames:
-    - svc1.login.outi.ir
+    - jaeger.login.outi.ir
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt
-  secretName: svc1-tls
+  secretName: jaeger-tls

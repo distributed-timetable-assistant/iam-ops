@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: oauth2-proxy
   labels:
-    app: oauth2-proxy-svc2
+    app: oauth2-proxy-jaeger
 spec:
   selector:
-    app: oauth2-proxy-svc2
+    app: oauth2-proxy-jaeger

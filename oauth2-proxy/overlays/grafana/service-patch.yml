@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: oauth2-proxy
   labels:
-    app: oauth2-proxy-svc1
+    app: oauth2-proxy-grafana
 spec:
   selector:
-    app: oauth2-proxy-svc1
+    app: oauth2-proxy-grafana

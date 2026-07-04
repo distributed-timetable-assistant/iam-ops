@@ -76,8 +76,6 @@ data:
         - https://web.login.outi.ir/hydra/logout
         - https://login.outi.ir
         - https://login.outi.ir/
-        - https://login.outi.ir/svc1
-        - https://login.outi.ir/svc2
 
       methods:
         password:
