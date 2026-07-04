@@ -5,28 +5,30 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: oauth2-proxy-svc1
+      app: oauth2-proxy-grafana
   template:
     metadata:
       labels:
-        app: oauth2-proxy-svc1
+        app: oauth2-proxy-grafana
     spec:
       containers:
         - name: oauth2-proxy
           envFrom:
             - secretRef:
-                name: oauth2-proxy-svc1
+                name: oauth2-proxy-grafana
           args:
             - --provider=oidc
             - --oidc-issuer-url=https://auth.outi.ir
-            - --redirect-url=https://svc1.login.outi.ir/oauth2/svc1/callback
-            - --proxy-prefix=/oauth2/svc1
+            - --redirect-url=https://grafana.login.outi.ir/oauth2/grafana/callback
+            - --proxy-prefix=/oauth2/grafana
             - --email-domain=*
             - --http-address=0.0.0.0:4180
             - --upstream=static://200
             - --cookie-secure=true
             - --cookie-samesite=lax
-            - --cookie-name=_oauth2_proxy_svc1
+            - --cookie-name=_oauth2_proxy_grafana
+            - --cookie-domain=.outi.ir
+            - --whitelist-domain=.outi.ir
             - --set-xauthrequest=true
             - --pass-authorization-header=true
             - --pass-access-token=true

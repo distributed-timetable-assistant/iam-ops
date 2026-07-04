@@ -6,13 +6,13 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - login.outi.ir
-      secretName: gatekeeper-tls
+        - grafana.login.outi.ir
+      secretName: grafana-tls
   rules:
-    - host: login.outi.ir
+    - host: grafana.login.outi.ir
       http:
         paths:
-          - path: /oauth2
+          - path: /oauth2/grafana
             pathType: Prefix
             backend:
               service:
