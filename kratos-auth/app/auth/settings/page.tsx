@@ -61,7 +61,7 @@ export default async function SettingsPage(props: OryPageParams) {
         console.error("[auth/settings] fetchFlow failed:", error)
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
-                <div className="font-medium">Settings flow could not be loaded.</div>
+                <div className="font-medium">DiTA settings flow could not be loaded.</div>
                 <div className="mt-2 break-words text-xs text-red-800">
                     {error instanceof Error ? error.message : "Unknown error"}
                 </div>
@@ -72,7 +72,7 @@ export default async function SettingsPage(props: OryPageParams) {
     if (!flow) {
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
-                Settings flow is missing or expired.
+                DiTA settings flow is missing or expired.
             </div>
         )
     }
