@@ -60,7 +60,7 @@ export default async function LoginPage(props: OryPageParams) {
         console.error("[auth/login] fetchFlow failed:", error)
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
-                <div className="font-medium">Login flow could not be loaded.</div>
+                <div className="font-medium">DiTA login flow could not be loaded.</div>
                 <div className="mt-2 break-words text-xs text-red-800">
                     {error instanceof Error ? error.message : "Unknown error"}
                 </div>
@@ -71,7 +71,7 @@ export default async function LoginPage(props: OryPageParams) {
     if (!flow) {
         return (
             <div className="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-900">
-                Login flow is missing or expired.
+                DiTA login flow is missing or expired.
             </div>
         )
     }
