@@ -62,11 +62,11 @@ spec:
               readOnly: true
           resources:
             limits:
-              cpu: 200m
+              cpu: 500m
               memory: 512Mi
             requests:
-              cpu: 0m
-              memory: 0Mi
+              cpu: 100m
+              memory: 256Mi
       volumes:
         - name: sqlite
           persistentVolumeClaim:
