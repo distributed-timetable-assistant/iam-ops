@@ -1,0 +1,8 @@
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: kratos
+    files:
+      - identity.schema.json
+      - kratos.yml
