@@ -29,6 +29,7 @@ on:
           - oauth2-proxy
           - whoami-svc1
           - whoami-svc2
+          - ory-selfservice
 
 jobs:
   detect-changes:

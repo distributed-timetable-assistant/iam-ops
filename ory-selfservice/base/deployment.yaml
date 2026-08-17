@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ory-selfservice
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ory-selfservice
+  template:
+    metadata:
+      labels:
+        app: ory-selfservice
+    spec:
+      containers:
+        - name: ory-selfservice
+          image: backendd/dita.ory-selfservice-rust:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            ORY_UI_LISTEN_ADDR: "0.0.0.0:8080"
+            ORY_UI_PUBLIC_BASE_URL: "https://web.login.outi.ir"
+            ORY_UI_KRATOS_PUBLIC_URL: "http://kratos-public:4433"
+            ORY_UI_HYDRA_ADMIN_URL: "http://hydra-admin:4445"
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 0m
+              memory: 0Mi
