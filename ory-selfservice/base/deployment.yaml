@@ -22,6 +22,7 @@ spec:
             ORY_UI_PUBLIC_BASE_URL: "https://web.login.outi.ir"
             ORY_UI_KRATOS_PUBLIC_URL: "http://kratos-public:4433"
             ORY_UI_HYDRA_ADMIN_URL: "http://hydra-admin:4445"
+            RUST_LOG: debug
           ports:
             - name: http
               containerPort: 8080

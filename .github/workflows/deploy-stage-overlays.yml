@@ -6,7 +6,6 @@ on:
       - "hydra-db/**"
       - "hydra/**"
       - "kratos/**"
-      - "kratos-auth/**"
       - "mailslurper/**"
       - "oauth2-proxy/**"
       - "whoami-svc1/**"
@@ -24,7 +23,6 @@ on:
           - hydra-db
           - hydra
           - kratos
-          - kratos-auth
           - mailslurper
           - oauth2-proxy
           - whoami-svc1
@@ -66,7 +64,7 @@ jobs:
             while IFS= read -r file; do
               app="${file%%/*}"
               case "$app" in
-                gatekeeper|hydra-db|hydra|kratos|kratos-auth|mailslurper|oauth2-proxy|whoami-svc1|whoami-svc2)
+                gatekeeper|hydra-db|hydra|kratos|mailslurper|oauth2-proxy|whoami-svc1|whoami-svc2)
                   apps+=("$app")
                   ;;
               esac
