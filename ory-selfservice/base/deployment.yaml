@@ -18,11 +18,16 @@ spec:
           image: backendd/dita.ory-selfservice-rust:latest
           imagePullPolicy: IfNotPresent
           env:
-            ORY_UI_LISTEN_ADDR: "0.0.0.0:8080"
-            ORY_UI_PUBLIC_BASE_URL: "https://web.login.outi.ir"
-            ORY_UI_KRATOS_PUBLIC_URL: "http://kratos-public:4433"
-            ORY_UI_HYDRA_ADMIN_URL: "http://hydra-admin:4445"
-            RUST_LOG: debug
+            - name: ORY_UI_LISTEN_ADDR
+              value: "0.0.0.0:8080"
+            - name: ORY_UI_PUBLIC_BASE_URL
+              value: "https://web.login.outi.ir"
+            - name: ORY_UI_KRATOS_PUBLIC_URL
+              value: "http://kratos-public:4433"
+            - name: ORY_UI_HYDRA_ADMIN_URL
+              value: "http://hydra-admin:4445"
+            - name: RUST_LOG
+              value: debug
           ports:
             - name: http
               containerPort: 8080
