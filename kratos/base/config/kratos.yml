@@ -24,6 +24,9 @@ session:
   cookie:
     domain: .outi.ir
 
+oauth2_provider:
+  url: http://hydra-admin:4445
+
 selfservice:
   default_browser_return_url: https://web.login.outi.ir/
   allowed_return_urls:
