@@ -10,6 +10,7 @@ on:
       - "oauth2-proxy/**"
       - "whoami-svc1/**"
       - "whoami-svc2/**"
+      - "ory-selfservice/**"
   workflow_dispatch:
     inputs:
       app:
