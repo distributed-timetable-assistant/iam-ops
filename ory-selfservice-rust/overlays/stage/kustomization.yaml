@@ -5,7 +5,7 @@ namespace: iam
 
 images:
 - name: backendd/dita.ory-selfservice-rust
-  newTag: v0.3.0
+  newTag: v0.3.1
 
 resources:
 - ../../base
