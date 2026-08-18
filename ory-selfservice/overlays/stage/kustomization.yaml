@@ -4,10 +4,8 @@ kind: Kustomization
 namespace: iam
 
 images:
-- name: backendd/dita.ory-selfservice
-  newTag: v0.2.0
 - name: backendd/dita.ory-selfservice-rust
-  newTag: v0.1.1
+  newTag: v0.2.0
 
 resources:
 - ../../base
