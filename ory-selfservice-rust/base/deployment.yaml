@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ory-selfservice
+  name: ory-selfservice-rust
 spec:
   revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:
-      app: ory-selfservice
+      app: ory-selfservice-rust
   template:
     metadata:
       labels:
-        app: ory-selfservice
+        app: ory-selfservice-rust
     spec:
       containers:
-        - name: ory-selfservice
+        - name: ory-selfservice-rust
           image: backendd/dita.ory-selfservice-rust:latest
           imagePullPolicy: IfNotPresent
           env:

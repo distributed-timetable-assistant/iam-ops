@@ -1,9 +1,9 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ory-selfservice
+  name: ory-selfservice-rust
 spec:
-  secretName: ory-selfservice-tls
+  secretName: ory-selfservice-rust-tls
   dnsNames:
     - "web.login.outi.ir"
   issuerRef:

@@ -1,13 +1,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ory-selfservice
+  name: ory-selfservice-rust
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
         - web.login.outi.ir
-      secretName: ory-selfservice-tls
+      secretName: ory-selfservice-rust-tls
   rules:
     - host: web.login.outi.ir
       http:
@@ -16,6 +16,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ory-selfservice
+                name: ory-selfservice-rust
                 port:
                   name: http
