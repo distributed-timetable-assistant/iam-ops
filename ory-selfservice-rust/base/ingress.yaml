@@ -19,9 +19,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kratos-public
+                name: kratos
                 port:
-                  name: http
+                  name: public
           - path: /
             pathType: Prefix
             backend:
@@ -36,9 +36,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kratos-public
+                name: kratos
                 port:
-                  name: http
+                  name: public
           - path: /
             pathType: Prefix
             backend:

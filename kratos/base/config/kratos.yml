@@ -18,7 +18,7 @@ serve:
         - Content-type
         - Authorization
   admin:
-    base_url: http://kratos-admin:4434/
+    base_url: http://kratos:4434/
 
 session:
   cookie:

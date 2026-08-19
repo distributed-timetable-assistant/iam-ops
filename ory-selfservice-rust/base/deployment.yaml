@@ -23,7 +23,7 @@ spec:
             - name: ORY_UI__PUBLIC_BASE_URL
               value: "https://web.login.outi.ir"
             - name: ORY_UI__KRATOS_PUBLIC_URL
-              value: "http://kratos-public:4433"
+              value: "http://kratos:4433"
             - name: ORY_UI__HYDRA_ADMIN_URL
               value: "http://hydra-admin:4445"
             - name: RUST_LOG
