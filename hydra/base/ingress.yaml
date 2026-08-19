@@ -16,7 +16,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: hydra-public
+                name: hydra
                 port:
-                  name: http
+                  name: public
 

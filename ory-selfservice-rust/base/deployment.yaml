@@ -25,7 +25,7 @@ spec:
             - name: ORY_UI__KRATOS_PUBLIC_URL
               value: "http://kratos:4433"
             - name: ORY_UI__HYDRA_ADMIN_URL
-              value: "http://hydra-admin:4445"
+              value: "http://hydra:4445"
             - name: RUST_LOG
               value: debug
           ports:

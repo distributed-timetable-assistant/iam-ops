@@ -25,7 +25,7 @@ session:
     domain: .outi.ir
 
 oauth2_provider:
-  url: http://hydra-admin:4445
+  url: http://hydra:4445
 
 selfservice:
   default_browser_return_url: https://web.login.outi.ir/
