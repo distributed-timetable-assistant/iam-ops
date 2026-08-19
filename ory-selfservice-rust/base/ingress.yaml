@@ -8,8 +8,28 @@ spec:
     - hosts:
         - web.login.outi.ir
       secretName: ory-selfservice-rust-tls
+    - hosts:
+        - identity.outi.ir
+      secretName: ory-selfservice-rust-tls
   rules:
     - host: web.login.outi.ir
+      http:
+        paths:
+          - path: /self-service
+            pathType: Prefix
+            backend:
+              service:
+                name: kratos-public
+                port:
+                  name: http
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ory-selfservice-rust
+                port:
+                  name: http
+    - host: identity.outi.ir
       http:
         paths:
           - path: /self-service
