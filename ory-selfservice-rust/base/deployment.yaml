@@ -21,7 +21,7 @@ spec:
             - name: ORY_UI__LISTEN_ADDR
               value: "0.0.0.0:8080"
             - name: ORY_UI__PUBLIC_BASE_URL
-              value: "https://web.login.outi.ir"
+              value: "https://identity.outi.ir"
             - name: ORY_UI__KRATOS_PUBLIC_URL
               value: "http://kratos:4433"
             - name: ORY_UI__HYDRA_ADMIN_URL

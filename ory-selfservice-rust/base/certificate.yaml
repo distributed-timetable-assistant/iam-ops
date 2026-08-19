@@ -5,7 +5,6 @@ metadata:
 spec:
   secretName: ory-selfservice-rust-tls
   dnsNames:
-    - "web.login.outi.ir"
     - "identity.outi.ir"
   issuerRef:
     name: letsencrypt

@@ -2,12 +2,12 @@ version: v0.13.0
 
 serve:
   public:
-    base_url: https://web.login.outi.ir/
+    base_url: https://identity.outi.ir/
     cors:
       enabled: true
       allow_credentials: true
       allowed_origins:
-        - https://web.login.outi.ir
+        - https://identity.outi.ir
       allowed_methods:
         - POST
         - GET
@@ -28,15 +28,15 @@ oauth2_provider:
   url: http://hydra:4445
 
 selfservice:
-  default_browser_return_url: https://web.login.outi.ir/
+  default_browser_return_url: https://identity.outi.ir/
   allowed_return_urls:
-    - https://web.login.outi.ir
-    - https://web.login.outi.ir/
-    - https://web.login.outi.ir/oauth2/login
-    - https://web.login.outi.ir/oauth2/login/
-    - https://web.login.outi.ir/oauth2/consent
-    - https://web.login.outi.ir/oauth2/consent/
-    - https://web.login.outi.ir/logout
+    - https://identity.outi.ir
+    - https://identity.outi.ir/
+    - https://identity.outi.ir/oauth2/login
+    - https://identity.outi.ir/oauth2/login/
+    - https://identity.outi.ir/oauth2/consent
+    - https://identity.outi.ir/oauth2/consent/
+    - https://identity.outi.ir/logout
     - https://login.outi.ir
     - https://login.outi.ir/
 
@@ -58,36 +58,36 @@ selfservice:
 
   flows:
     error:
-      ui_url: https://web.login.outi.ir/error
+      ui_url: https://identity.outi.ir/error
 
     settings:
-      ui_url: https://web.login.outi.ir/settings
+      ui_url: https://identity.outi.ir/settings
       privileged_session_max_age: 15m
       required_aal: highest_available
 
     recovery:
       enabled: true
-      ui_url: https://web.login.outi.ir/recovery
+      ui_url: https://identity.outi.ir/recovery
       use: code
 
     verification:
       enabled: true
-      ui_url: https://web.login.outi.ir/verification
+      ui_url: https://identity.outi.ir/verification
       use: code
       after:
-        default_browser_return_url: https://web.login.outi.ir/
+        default_browser_return_url: https://identity.outi.ir/
 
     logout:
       after:
-        default_browser_return_url: https://web.login.outi.ir/login
+        default_browser_return_url: https://identity.outi.ir/login
 
     login:
-      ui_url: https://web.login.outi.ir/login
+      ui_url: https://identity.outi.ir/login
       lifespan: 10m
 
     registration:
       lifespan: 10m
-      ui_url: https://web.login.outi.ir/registration
+      ui_url: https://identity.outi.ir/registration
       after:
         password:
           hooks:

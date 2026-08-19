@@ -22,6 +22,6 @@ data:
     urls:
       self:
         issuer: https://auth.outi.ir
-      login: https://web.login.outi.ir/oauth2/login
-      consent: https://web.login.outi.ir/oauth2/consent
-      logout: https://web.login.outi.ir/logout
+      login: https://identity.outi.ir/oauth2/login
+      consent: https://identity.outi.ir/oauth2/consent
+      logout: https://identity.outi.ir/logout
