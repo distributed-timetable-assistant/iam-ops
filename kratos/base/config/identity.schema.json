@@ -32,6 +32,16 @@
               "title": "Last Name"
             }
           }
+        },
+        "username": {
+          "type": "string",
+          "title": "Username",
+          "minLength": 3
+        },
+        "avatar_url": {
+          "type": "string",
+          "format": "uri",
+          "title": "Avatar URL"
         }
       },
       "required": [

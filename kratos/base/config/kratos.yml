@@ -8,12 +8,14 @@ serve:
       allow_credentials: true
       allowed_origins:
         - https://identity.outi.ir
+        - http://localhost:8080
       allowed_methods:
         - POST
         - GET
         - PUT
         - PATCH
         - DELETE
+        - OPTIONS
       allowed_headers:
         - Content-type
         - Authorization
