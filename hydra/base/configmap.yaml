@@ -16,6 +16,16 @@ data:
           enabled: true
           allowed_origins:
             - "*"
+          allowed_methods:
+            - GET
+            - POST
+            - OPTIONS
+          allowed_headers:
+            - Authorization
+            - Content-Type
+            - X-Requested-With
+          exposed_headers:
+            - Content-Type
       admin:
         host: 0.0.0.0
         port: 4445
