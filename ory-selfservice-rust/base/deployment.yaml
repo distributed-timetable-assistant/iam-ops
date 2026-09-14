@@ -18,16 +18,22 @@ spec:
           image: backendd/dita.ory-selfservice-rust:latest
           imagePullPolicy: IfNotPresent
           env:
-            - name: ORY_UI__LISTEN_ADDR
+            - name: APP__LISTEN_ADDR
               value: "0.0.0.0:8080"
-            - name: ORY_UI__PUBLIC_BASE_URL
+            - name: APP__PUBLIC_BASE_URL
               value: "https://identity.outi.ir"
-            - name: ORY_UI__KRATOS_PUBLIC_URL
+            - name: APP__KRATOS_PUBLIC_URL
               value: "http://kratos:4433"
-            - name: ORY_UI__HYDRA_ADMIN_URL
+            - name: APP__HYDRA_ADMIN_URL
               value: "http://hydra:4445"
             - name: RUST_LOG
-              value: debug
+              value: "info"
+            # Immediately return unused memory pages to the OS.
+            - name: MIMALLOC_PURGE_DELAY
+              value: "0"
+            # Disable Transparent Huge Pages to minimize memory footprint.
+            - name: MIMALLOC_ALLOW_THP
+              value: "0"
           ports:
             - name: http
               containerPort: 8080
